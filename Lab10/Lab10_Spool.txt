@@ -1,0 +1,1045 @@
+SQL> 
+SQL> START "D:\Marissa\RegistrationDB_Script.sql"
+SQL> --RegistrationDB_Script.sql
+SQL> 
+SQL> 
+SQL> DROP TABLE faculty CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE student CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE course CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE enrollment CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE levelclass CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Department CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE CategoryStudent CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE Department
+  2  (DeptId NUMBER (2),
+  3  DeptName	     VARCHAR2 (20) NOT NULL,
+  4  Location	     VARCHAR2 (15),
+  5  CONSTRAINT depart_deptid_pk PRIMARY KEY (DeptId));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE faculty
+  2  (f_id NUMBER(5),
+  3  f_last VARCHAR2(30),
+  4  f_first VARCHAR2(30),
+  5  CONSTRAINT faculty_f_id_pk PRIMARY KEY (f_id));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE CategoryStudent
+  2  (Cat_Stud_ID NUMBER(2),
+  3  Cat_Start_Date DATE,
+  4  Cat_End_Date DATE,
+  5  Cat_Stud_DESC VARCHAR2(20),
+  6  CONSTRAINT CategoryStudent_Cat_Stud_ID_pk PRIMARY KEY (Cat_Stud_ID));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE student
+  2  (s_id NUMBER(5),
+  3  s_last VARCHAR2(30),
+  4  s_first VARCHAR2(30),
+  5  s_class VARCHAR2(2),
+  6  f_id NUMBER(5),
+  7  CONSTRAINT student_s_id_pk PRIMARY KEY (s_id),
+  8  CONSTRAINT student_s_id_fk FOREIGN KEY (f_id) REFERENCES faculty(f_id));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE COURSE
+  2  (course_no VARCHAR2(7),
+  3  course_name VARCHAR2(25),
+  4  credits NUMBER(2),
+  5  max_enrl NUMBER(4) CONSTRAINT course_maxenrl_nn NOT NULL,
+  6  CONSTRAINT course_course_id_pk PRIMARY KEY(course_no));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE LEVELCLASS
+  2  (lc_type NUMBER(2),
+  3  lc_desc VARCHAR2(20),
+  4  lc_min NUMBER(3),
+  5  lc_max NUMBER(3),
+  6  CONSTRAINT levelclass_lc_type_pk PRIMARY KEY(lc_type));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE ENROLLMENT
+  2  (s_id NUMBER(5),
+  3  course_no VARCHAR2(7),
+  4  grade CHAR(2),
+  5  CONSTRAINT enrollment_pk PRIMARY KEY (s_id, course_no),
+  6  CONSTRAINT enrollment_sid_fk FOREIGN KEY (s_id) REFERENCES student(s_id),
+  7  CONSTRAINT enrollment_csecid_fk FOREIGN KEY (course_no) REFERENCES course (course_no));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> --- inserting records into Department
+SQL> INSERT INTO Department VALUES
+  2  (10, 'Computer Science', 'Campus CS');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Department VALUES
+  2  (20, 'Telecommunication', 'Campus TEL');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Department VALUES
+  2  (30, 'Accounting', 'Campus AC');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Department VALUES
+  2  (40, 'Math and Science', 'Campus MS');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Department VALUES
+  2  (50, 'Liberal Arts', 'Campus LA');
+
+1 row created.
+
+SQL> 
+SQL> --- inserting records into Faculty
+SQL> INSERT INTO Faculty VALUES
+  2  (1, 'Robertson', 'Myra');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (2, 'Smith', 'Neal');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (3, 'Arlec', 'Lisa');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (4, 'Fillipo', 'Paul');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (5, 'Denver', 'Paul');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (6, 'Silcoff', 'Bob');
+
+1 row created.
+
+SQL> 
+SQL> --- inserting records into CategoryStudent
+SQL> INSERT INTO CATEGORYSTUDENT VALUES
+  2  (1, TO_DATE('01-01-1960', 'dd-mm-yyyy'), TO_DATE('31-12-1969', 'dd-mm-yyyy'),'Generation X1');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO CATEGORYSTUDENT VALUES
+  2  (2, TO_DATE('01-01-1970', 'dd-mm-yyyy'), TO_DATE('31-12-1979', 'dd-mm-yyyy'),'Generation X');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO CATEGORYSTUDENT VALUES
+  2  (3, TO_DATE('01-01-1980', 'dd-mm-yyyy'), TO_DATE('31-12-1989', 'dd-mm-yyyy'),'Generation Y');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> --- inserting records into Student
+SQL> INSERT INTO STUDENT VALUES
+  2  (1, 'Graham', 'Bill','JR',4);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (2, 'Sanchez', 'Jim','EX',3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (3, 'White', 'Peter','EX',3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT  VALUES
+  2  (4, 'Phelp', 'David','JR',1);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT  VALUES
+  2  (5, 'Lewis', 'Sheila','SR',2);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT  VALUES
+  2  (6, 'James', 'Thomas','JR',1);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT  VALUES
+  2  (7, 'Evanov', 'Catherine','JR',6);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --- inserting records into COURSE
+SQL> INSERT INTO course VALUES
+  2  ('MIS 101', 'Intro. to Info. Systems', 3, 140);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 301', 'Systems Analysis', 3, 35);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 441', 'Database Management', 3, 12);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('CS 155', 'Programming in C++', 3, 90);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 451', 'Web-Based Systems', 3, 30);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 551', 'Advanced Web', 3, 30);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 651', 'Advanced Java', 3, 30);
+
+1 row created.
+
+SQL> 
+SQL> --- inserting records into ENROLLMENT
+SQL> INSERT INTO enrollment VALUES
+  2  (1, 'MIS 101', 'A+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (5,'MIS 301', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (2,'MIS 441', 'A-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (3,'CS 155', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (5,'MIS 451', 'A+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (4,'MIS 551', 'B+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (6,'MIS 651', 'C+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (3,'MIS 301', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (4,'MIS 441', 'A-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (4,'CS 155', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (2,'MIS 451', 'A+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (6,'MIS 551', 'B+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (3,'MIS 651', 'C+');
+
+1 row created.
+
+SQL> 
+SQL> -- inserting records into LEVELCLASS
+SQL> INSERT INTO levelclass VALUES
+  2  (1, 'Small Class', 1, 12);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO levelclass VALUES
+  2  (2, 'Medium Class', 13, 30);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO levelclass VALUES
+  2  (3, 'Large Class', 31, 90);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO levelclass VALUES
+  2  (4, 'Extra Large Class', 91, 140);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> ALTER TABLE faculty
+  2  ADD Birthday DATE;
+
+Table altered.
+
+SQL> 
+SQL> ALTER TABLE faculty
+  2  ADD soc_ins CHAR(11);
+
+Table altered.
+
+SQL> 
+SQL> UPDATE faculty SET birthday=TO_DATE('30-07-1940', 'dd-mm-yyyy'), soc_ins= '123-456-789' where f_id=1;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=TO_DATE('12-05-1950', 'dd-mm-yyyy'), soc_ins= '321-456-789' where f_id=2;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=TO_DATE('24-03-1941', 'dd-mm-yyyy'), soc_ins= '123-554-789' where f_id=3;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=TO_DATE('11-02-1971', 'dd-mm-yyyy'), soc_ins= '123-456-987' where f_id=4;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=TO_DATE('09-10-1980', 'dd-mm-yyyy'), soc_ins= '123-654-987' where f_id=5;
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> ALTER TABLE student
+  2  ADD Birthday DATE;
+
+Table altered.
+
+SQL> 
+SQL> ALTER TABLE student
+  2  ADD soc_ins CHAR(11);
+
+Table altered.
+
+SQL> 
+SQL> UPDATE student SET birthday=TO_DATE('30-07-1980', 'dd-mm-yyyy'), soc_ins= '456-123-789' where s_id=1;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=TO_DATE('12-05-1981', 'dd-mm-yyyy'), soc_ins= '654-123-789' where s_id=2;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=TO_DATE('24-03-1987', 'dd-mm-yyyy'), soc_ins= '456-321-789' where s_id=3;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=TO_DATE('11-02-1988', 'dd-mm-yyyy'), soc_ins= '456-123-987' where s_id=4;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=TO_DATE('09-10-1970', 'dd-mm-yyyy'), soc_ins= '456-321-987' where s_id=5;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=TO_DATE('07-12-1960', 'dd-mm-yyyy'), soc_ins= '654-321-987' where s_id=6;
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> ALTER TABLE course
+  2  ADD prereq VARCHAR2(7);
+
+Table altered.
+
+SQL> 
+SQL> UPDATE course SET prereq='MIS 651' where course_no='MIS 301';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 301' where course_no='MIS 441';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 101' where course_no='CS 155';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 101' where course_no='MIS 451';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 451' where course_no='MIS 551';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 101' where course_no='MIS 651';
+
+1 row updated.
+
+SQL> 
+SQL> ALTER TABLE faculty
+  2  ADD DeptId      NUMBER (2) ;
+
+Table altered.
+
+SQL> 
+SQL> ALTER TABLE faculty ADD CONSTRAINTS faculty_DeptId_pk FOREIGN KEY (DeptId) REFERENCES Department(DeptId);
+
+Table altered.
+
+SQL> 
+SQL> 
+SQL> UPDATE faculty SET DeptId=10 where f_id=1;
+
+1 row updated.
+
+SQL> UPDATE faculty SET DeptId=20 where f_id=2;
+
+1 row updated.
+
+SQL> UPDATE faculty SET DeptId=30 where f_id=3;
+
+1 row updated.
+
+SQL> UPDATE faculty SET DeptId=10 where f_id=4;
+
+1 row updated.
+
+SQL> UPDATE faculty SET DeptId=40 where f_id=5;
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --I: Single-Row Sub-Queries
+SQL> 
+SQL> 
+SQL> --Query 1:
+SQL> 
+SQL> COLUMN s_last FORMAT A10;
+SQL> COLUMN s_first FORMAT A10;
+SQL> 
+SQL> SELECT s_id, s_last, s_first, f_id
+  2  FROM student
+  3  WHERE f_id = (
+  4                 SELECT f_id
+  5                 FROM faculty
+  6     WHERE f_last = 'Arlec'
+  7    );
+
+      S_ID S_LAST     S_FIRST          F_ID                                                                                                                                                             
+---------- ---------- ---------- ----------                                                                                                                                                             
+         2 Sanchez    Jim                 3                                                                                                                                                             
+         3 White      Peter               3                                                                                                                                                             
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 2:
+SQL> 
+SQL> COLUMN s.s_last FORMAT A10;
+SQL> COLUMN s.s_first FORMAT A10;
+SQL> COLUMN facultyName FORMAT A20 HEADING "Faculty Name";
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, s.f_id, f.f_last || ' ' || f.f_first facultyName
+  2  FROM student s, faculty f
+  3  WHERE s.f_id = f.f_id AND f.f_last = 'Arlec';
+
+      S_ID S_LAST     S_FIRST          F_ID Faculty Name                                                                                                                                                
+---------- ---------- ---------- ---------- --------------------                                                                                                                                        
+         2 Sanchez    Jim                 3 Arlec Lisa                                                                                                                                                  
+         3 White      Peter               3 Arlec Lisa                                                                                                                                                  
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 3:
+SQL> 
+SQL> SELECT s_id, s_last, s_first, birthday
+  2  FROM student
+  3  WHERE birthday >=  (
+  4                       SELECT birthday
+  5                       FROM student
+  6   WHERE s_last = 'Sanchez'
+  7  );
+
+      S_ID S_LAST     S_FIRST    BIRTHDAY                                                                                                                                                               
+---------- ---------- ---------- ---------                                                                                                                                                              
+         2 Sanchez    Jim        12-MAY-81                                                                                                                                                              
+         3 White      Peter      24-MAR-87                                                                                                                                                              
+         4 Phelp      David      11-FEB-88                                                                                                                                                              
+
+SQL> 
+SQL> 
+SQL> SELECT * FROM student;
+
+      S_ID S_LAST     S_FIRST    S_       F_ID BIRTHDAY  SOC_INS                                                                                                                                        
+---------- ---------- ---------- -- ---------- --------- -----------                                                                                                                                    
+         1 Graham     Bill       JR          4 30-JUL-80 456-123-789                                                                                                                                    
+         2 Sanchez    Jim        EX          3 12-MAY-81 654-123-789                                                                                                                                    
+         3 White      Peter      EX          3 24-MAR-87 456-321-789                                                                                                                                    
+         4 Phelp      David      JR          1 11-FEB-88 456-123-987                                                                                                                                    
+         5 Lewis      Sheila     SR          2 09-OCT-70 456-321-987                                                                                                                                    
+         6 James      Thomas     JR          1 07-DEC-60 654-321-987                                                                                                                                    
+         7 Evanov     Catherine  JR          6                                                                                                                                                          
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 4:
+SQL> 
+SQL> SELECT s_id, s_last, s_first, birthday
+  2  FROM student
+  3  WHERE birthday >=  (
+  4                       SELECT birthday
+  5                       FROM student
+  6   WHERE s_last = 'White'
+  7  );
+
+      S_ID S_LAST     S_FIRST    BIRTHDAY                                                                                                                                                               
+---------- ---------- ---------- ---------                                                                                                                                                              
+         3 White      Peter      24-MAR-87                                                                                                                                                              
+         4 Phelp      David      11-FEB-88                                                                                                                                                              
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 5:
+SQL> 
+SQL> COLUMN s_last FORMAT A10;
+SQL> COLUMN s_first FORMAT A10;
+SQL> 
+SQL> SELECT s_id, s_last, s_first, f_id
+  2  FROM student
+  3  WHERE f_id != (
+  4                 SELECT f_id
+  5                 FROM faculty
+  6     WHERE f_last = 'Arlec'
+  7    );
+
+      S_ID S_LAST     S_FIRST          F_ID                                                                                                                                                             
+---------- ---------- ---------- ----------                                                                                                                                                             
+         1 Graham     Bill                4                                                                                                                                                             
+         4 Phelp      David               1                                                                                                                                                             
+         5 Lewis      Sheila              2                                                                                                                                                             
+         6 James      Thomas              1                                                                                                                                                             
+         7 Evanov     Catherine           6                                                                                                                                                             
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 6:
+SQL> 
+SQL> SELECT s_id, course_no, grade
+  2  FROM enrollment
+  3  WHERE s_id = (
+  4                  SELECT s_id
+  5  FROM student
+  6  WHERE f_id = (
+  7                  SELECT f_id
+  8  FROM faculty
+  9  WHERE f_last = 'Smith'
+ 10                )
+ 11               );
+
+      S_ID COURSE_ GR                                                                                                                                                                                   
+---------- ------- --                                                                                                                                                                                   
+         5 MIS 301 B-                                                                                                                                                                                   
+         5 MIS 451 A+                                                                                                                                                                                   
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 7:
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, e.course_no, e.grade, f.f_last
+  2  FROM student s, enrollment e, faculty f
+  3  WHERE s.s_id = e.s_id AND s.f_id = f.f_id AND f.f_last = 'Smith';
+
+      S_ID S_LAST     S_FIRST    COURSE_ GR F_LAST                                                                                                                                                      
+---------- ---------- ---------- ------- -- ----------                                                                                                                                                  
+         5 Lewis      Sheila     MIS 451 A+ Smith                                                                                                                                                       
+         5 Lewis      Sheila     MIS 301 B- Smith                                                                                                                                                       
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 8:
+SQL> 
+SQL> CREATE TABLE temp
+  2  AS
+  3  SELECT s_id, s_last, s_first, s_class
+  4  FROM student
+  5  WHERE s_class = 'JR';
+CREATE TABLE temp
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> 
+SQL> 
+SQL> DESCRIBE temp;
+ Name                                                                                                              Null?    Type
+ ----------------------------------------------------------------------------------------------------------------- -------- ----------------------------------------------------------------------------
+ F_ID                                                                                                                       NUMBER(5)
+ F_LAST                                                                                                                     VARCHAR2(30)
+ F_FIRST                                                                                                                    VARCHAR2(30)
+ BIRTHDAY                                                                                                                   DATE
+ DEPTID                                                                                                                     NUMBER(2)
+ DEPTNAME                                                                                                          NOT NULL VARCHAR2(20)
+ LOCATION                                                                                                                   VARCHAR2(15)
+
+SQL> 
+SQL> SELECT * FROM temp;
+
+      F_ID F_LAST     F_FIRST    BIRTHDAY      DEPTID DEPTNAME             LOCATION                                                                                                                     
+---------- ---------- ---------- --------- ---------- -------------------- ---------------                                                                                                              
+         2 Smith      Neal       12-MAY-50         10 Computer Science     Campus CS                                                                                                                    
+         4 Fillipo    Paul       11-FEB-71         10 Computer Science     Campus CS                                                                                                                    
+         2 Smith      Neal       12-MAY-50         20 Telecommunication    Campus TEL                                                                                                                   
+         4 Fillipo    Paul       11-FEB-71         20 Telecommunication    Campus TEL                                                                                                                   
+         1 Robertson  Myra       30-JUL-40         10 Computer Science     Campus CS                                                                                                                    
+         1 Robertson  Myra       30-JUL-40         20 Telecommunication    Campus TEL                                                                                                                   
+         1 Robertson  Myra       30-JUL-40         30 Accounting           Campus AC                                                                                                                    
+         2 Smith      Neal       12-MAY-50         10 Computer Science     Campus CS                                                                                                                    
+         2 Smith      Neal       12-MAY-50         20 Telecommunication    Campus TEL                                                                                                                   
+         2 Smith      Neal       12-MAY-50         30 Accounting           Campus AC                                                                                                                    
+         3 Arlec      Lisa       24-MAR-41         10 Computer Science     Campus CS                                                                                                                    
+         3 Arlec      Lisa       24-MAR-41         20 Telecommunication    Campus TEL                                                                                                                   
+         3 Arlec      Lisa       24-MAR-41         30 Accounting           Campus AC                                                                                                                    
+         4 Fillipo    Paul       11-FEB-71         10 Computer Science     Campus CS                                                                                                                    
+         4 Fillipo    Paul       11-FEB-71         20 Telecommunication    Campus TEL                                                                                                                   
+         5 Denver     Paul       09-OCT-80         10 Computer Science     Campus CS                                                                                                                    
+         5 Denver     Paul       09-OCT-80         20 Telecommunication    Campus TEL                                                                                                                   
+
+17 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 9:
+SQL> 
+SQL> INSERT INTO temp(s_id, s_first, s_last)
+  2  SELECT s_id, s_first, s_last
+  3  FROM student
+  4  WHERE s_class = 'SR';
+INSERT INTO temp(s_id, s_first, s_last)
+                                *
+ERROR at line 1:
+ORA-00904: "S_LAST": invalid identifier 
+
+
+SQL> 
+SQL> SELECT * FROM temp;
+
+      F_ID F_LAST     F_FIRST    BIRTHDAY      DEPTID DEPTNAME             LOCATION                                                                                                                     
+---------- ---------- ---------- --------- ---------- -------------------- ---------------                                                                                                              
+         2 Smith      Neal       12-MAY-50         10 Computer Science     Campus CS                                                                                                                    
+         4 Fillipo    Paul       11-FEB-71         10 Computer Science     Campus CS                                                                                                                    
+         2 Smith      Neal       12-MAY-50         20 Telecommunication    Campus TEL                                                                                                                   
+         4 Fillipo    Paul       11-FEB-71         20 Telecommunication    Campus TEL                                                                                                                   
+         1 Robertson  Myra       30-JUL-40         10 Computer Science     Campus CS                                                                                                                    
+         1 Robertson  Myra       30-JUL-40         20 Telecommunication    Campus TEL                                                                                                                   
+         1 Robertson  Myra       30-JUL-40         30 Accounting           Campus AC                                                                                                                    
+         2 Smith      Neal       12-MAY-50         10 Computer Science     Campus CS                                                                                                                    
+         2 Smith      Neal       12-MAY-50         20 Telecommunication    Campus TEL                                                                                                                   
+         2 Smith      Neal       12-MAY-50         30 Accounting           Campus AC                                                                                                                    
+         3 Arlec      Lisa       24-MAR-41         10 Computer Science     Campus CS                                                                                                                    
+         3 Arlec      Lisa       24-MAR-41         20 Telecommunication    Campus TEL                                                                                                                   
+         3 Arlec      Lisa       24-MAR-41         30 Accounting           Campus AC                                                                                                                    
+         4 Fillipo    Paul       11-FEB-71         10 Computer Science     Campus CS                                                                                                                    
+         4 Fillipo    Paul       11-FEB-71         20 Telecommunication    Campus TEL                                                                                                                   
+         5 Denver     Paul       09-OCT-80         10 Computer Science     Campus CS                                                                                                                    
+         5 Denver     Paul       09-OCT-80         20 Telecommunication    Campus TEL                                                                                                                   
+
+17 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 10:
+SQL> 
+SQL> UPDATE student SET s_class = 'EX'
+  2  WHERE f_id = (
+  3                  SELECT f_id
+  4      FROM faculty
+  5      WHERE f_last = 'Robertson'
+  6               );
+
+2 rows updated.
+
+SQL> 
+SQL> 
+SQL> SELECT * FROM student;
+
+      S_ID S_LAST     S_FIRST    S_       F_ID BIRTHDAY  SOC_INS                                                                                                                                        
+---------- ---------- ---------- -- ---------- --------- -----------                                                                                                                                    
+         1 Graham     Bill       JR          4 30-JUL-80 456-123-789                                                                                                                                    
+         2 Sanchez    Jim        EX          3 12-MAY-81 654-123-789                                                                                                                                    
+         3 White      Peter      EX          3 24-MAR-87 456-321-789                                                                                                                                    
+         4 Phelp      David      EX          1 11-FEB-88 456-123-987                                                                                                                                    
+         5 Lewis      Sheila     SR          2 09-OCT-70 456-321-987                                                                                                                                    
+         6 James      Thomas     EX          1 07-DEC-60 654-321-987                                                                                                                                    
+         7 Evanov     Catherine  JR          6                                                                                                                                                          
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 11:
+SQL> 
+SQL> DELETE FROM student
+  2  WHERE f_id = (
+  3                  SELECT f_id
+  4      FROM faculty
+  5      WHERE f_last = 'Silcoff'
+  6               );
+
+1 row deleted.
+
+SQL> 
+SQL> 
+SQL> SELECT * FROM student;
+
+      S_ID S_LAST     S_FIRST    S_       F_ID BIRTHDAY  SOC_INS                                                                                                                                        
+---------- ---------- ---------- -- ---------- --------- -----------                                                                                                                                    
+         1 Graham     Bill       JR          4 30-JUL-80 456-123-789                                                                                                                                    
+         2 Sanchez    Jim        EX          3 12-MAY-81 654-123-789                                                                                                                                    
+         3 White      Peter      EX          3 24-MAR-87 456-321-789                                                                                                                                    
+         4 Phelp      David      EX          1 11-FEB-88 456-123-987                                                                                                                                    
+         5 Lewis      Sheila     SR          2 09-OCT-70 456-321-987                                                                                                                                    
+         6 James      Thomas     EX          1 07-DEC-60 654-321-987                                                                                                                                    
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 12:
+SQL> 
+SQL> SELECT course_no, course_name, max_enrl
+  2  FROM course
+  3  WHERE max_enrl < (
+  4                      SELECT AVG(SUM(max_enrl))
+  5  FROM course
+  6  GROUP BY max_enrl
+  7                   );
+
+COURSE_ COURSE_NAME                 MAX_ENRL                                                                                                                                                            
+------- ------------------------- ----------                                                                                                                                                            
+MIS 301 Systems Analysis                  35                                                                                                                                                            
+MIS 441 Database Management               12                                                                                                                                                            
+MIS 451 Web-Based Systems                 30                                                                                                                                                            
+MIS 551 Advanced Web                      30                                                                                                                                                            
+MIS 651 Advanced Java                     30                                                                                                                                                            
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --II: Multiple-Row Sub-Queries
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 13:
+SQL> 
+SQL> COLUMN s_last FORMAT A10;
+SQL> COLUMN s_first FORMAT A10;
+SQL> 
+SQL> SELECT s_id, s_last, s_first, birthday, f_id
+  2  FROM student
+  3  WHERE f_id IN (
+  4                  SELECT f_id
+  5      FROM faculty
+  6      WHERE f_id > 2
+  7                );
+
+      S_ID S_LAST     S_FIRST    BIRTHDAY        F_ID                                                                                                                                                   
+---------- ---------- ---------- --------- ----------                                                                                                                                                   
+         1 Graham     Bill       30-JUL-80          4                                                                                                                                                   
+         2 Sanchez    Jim        12-MAY-81          3                                                                                                                                                   
+         3 White      Peter      24-MAR-87          3                                                                                                                                                   
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 14:
+SQL> 
+SQL> SELECT *
+  2  FROM course
+  3  WHERE course_no IN  (
+  4                         SELECT course_no
+  5             FROM enrollment
+  6             WHERE grade = 'A+'
+  7                      );
+
+COURSE_ COURSE_NAME                  CREDITS   MAX_ENRL PREREQ                                                                                                                                          
+------- ------------------------- ---------- ---------- -------                                                                                                                                         
+MIS 101 Intro. to Info. Systems            3        140                                                                                                                                                 
+MIS 451 Web-Based Systems                  3         30 MIS 101                                                                                                                                         
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 15:
+SQL> 
+SQL> COLUMN s.s_last FORMAT A10;
+SQL> COLUMN s.s_first FORMAT A10;
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, s.s_class
+  2  FROM student s, enrollment e
+  3  WHERE s.s_id = e.s_id AND e.grade = 'A+'
+  4  ORDER BY s.s_id;
+
+      S_ID S_LAST     S_FIRST    S_                                                                                                                                                                     
+---------- ---------- ---------- --                                                                                                                                                                     
+         1 Graham     Bill       JR                                                                                                                                                                     
+         2 Sanchez    Jim        EX                                                                                                                                                                     
+         5 Lewis      Sheila     SR                                                                                                                                                                     
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 16:
+SQL> 
+SQL> SELECT ROWNUM, course_no, course_name, max_enrl
+  2  FROM (SELECT course_no, course_name, max_enrl
+  3        FROM course
+  4    ORDER BY max_enrl DESC)
+  5  WHERE ROWNUM <= 3;
+
+    ROWNUM COURSE_ COURSE_NAME                 MAX_ENRL                                                                                                                                                 
+---------- ------- ------------------------- ----------                                                                                                                                                 
+         1 MIS 101 Intro. to Info. Systems          140                                                                                                                                                 
+         2 CS 155  Programming in C++                90                                                                                                                                                 
+         3 MIS 301 Systems Analysis                  35                                                                                                                                                 
+
+SQL> 
+SQL> 
+SQL> SELECT * FROM course;
+
+COURSE_ COURSE_NAME                  CREDITS   MAX_ENRL PREREQ                                                                                                                                          
+------- ------------------------- ---------- ---------- -------                                                                                                                                         
+MIS 101 Intro. to Info. Systems            3        140                                                                                                                                                 
+MIS 301 Systems Analysis                   3         35 MIS 651                                                                                                                                         
+MIS 441 Database Management                3         12 MIS 301                                                                                                                                         
+CS 155  Programming in C++                 3         90 MIS 101                                                                                                                                         
+MIS 451 Web-Based Systems                  3         30 MIS 101                                                                                                                                         
+MIS 551 Advanced Web                       3         30 MIS 451                                                                                                                                         
+MIS 651 Advanced Java                      3         30 MIS 101                                                                                                                                         
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Query 17:
+SQL> 
+SQL> SELECT ROWNUM, course_no, course_name, max_enrl
+  2  FROM (SELECT course_no, course_name, max_enrl
+  3        FROM course
+  4    ORDER BY max_enrl)
+  5  WHERE ROWNUM <= 3;
+
+    ROWNUM COURSE_ COURSE_NAME                 MAX_ENRL                                                                                                                                                 
+---------- ------- ------------------------- ----------                                                                                                                                                 
+         1 MIS 441 Database Management               12                                                                                                                                                 
+         2 MIS 451 Web-Based Systems                 30                                                                                                                                                 
+         3 MIS 551 Advanced Web                      30                                                                                                                                                 
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SPOOL OFF;

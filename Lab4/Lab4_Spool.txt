@@ -1,0 +1,375 @@
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 2:
+SQL> 
+SQL> 
+SQL> 
+SQL> --a)
+SQL> 
+SQL> select b_id||', '||b_author||' has written '||b_title
+  2  from book;
+
+B_ID||','||B_AUTHOR||'HASWRITTEN'||B_TITLE                                                                                                                                                              
+-------------------------------------------------------------------------------------------------------------------                                                                                     
+1, Stev Jeff has written Java Programming                                                                                                                                                               
+2, Amine Khan has written Oracle Database                                                                                                                                                               
+3, Eduard Becker has written History of Art                                                                                                                                                             
+4, James Peter has written PHP Programming                                                                                                                                                              
+5, Paul Tremblay has written Economy and Wealth                                                                                                                                                         
+6, Paul Henry has written Business principles                                                                                                                                                           
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --b)
+SQL> 
+SQL> select b_id, b_author, b_title, b_price
+  2  from book
+  3  where b_type = 'EX';
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE                                                                                                                     
+---------- ------------------------------ ------------------------------ ----------                                                                                                                     
+         2 Amine Khan                     Oracle Database                     252.4                                                                                                                     
+         3 Eduard Becker                  History of Art                      202.3                                                                                                                     
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --c)
+SQL> 
+SQL> select *
+  2  from book
+  3  where b_price between 40 and 100;
+
+      B_ID B_AUTHOR                       B_TITLE                        B_ISBN        B_    B_PRICE       P_ID                                                                                         
+---------- ------------------------------ ------------------------------ ------------- -- ---------- ----------                                                                                         
+         1 Stev Jeff                      Java Programming               1234987       BG       42.4          4                                                                                         
+         4 James Peter                    PHP Programming                765432        MD       66.7          2                                                                                         
+         5 Paul Tremblay                  Economy and Wealth             1209845       BG       43.3          3                                                                                         
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --d)
+SQL> 
+SQL> select b_id, b_author, b_title, b_price
+  2  from book
+  3  where b_id in (2, 4, 6);
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE                                                                                                                     
+---------- ------------------------------ ------------------------------ ----------                                                                                                                     
+         2 Amine Khan                     Oracle Database                     252.4                                                                                                                     
+         4 James Peter                    PHP Programming                      66.7                                                                                                                     
+         6 Paul Henry                     Business principles                  12.6                                                                                                                     
+
+SQL> 
+SQL> 
+SQL> select b_id, b_author, b_title, b_price
+  2  from book
+  3  where b_id not in (2, 4, 6);
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE                                                                                                                     
+---------- ------------------------------ ------------------------------ ----------                                                                                                                     
+         1 Stev Jeff                      Java Programming                     42.4                                                                                                                     
+         3 Eduard Becker                  History of Art                      202.3                                                                                                                     
+         5 Paul Tremblay                  Economy and Wealth                   43.3                                                                                                                     
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --e)
+SQL> 
+SQL> select b_id, b_author, b_title, b_price
+  2  from book
+  3  where b_title like'P%';
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE                                                                                                                     
+---------- ------------------------------ ------------------------------ ----------                                                                                                                     
+         4 James Peter                    PHP Programming                      66.7                                                                                                                     
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --f)
+SQL> 
+SQL> select *
+  2  from publisher
+  3  order by p_id desc;
+
+      P_ID P_NAME                         P_ADDRESS                                                                                                                                                     
+---------- ------------------------------ ----------------------------------------                                                                                                                      
+         5 MIT Publishing                 32 Square Paule Boston, USA                                                                                                                                   
+         4 Harvard Publishing             New Hamphshir, Boston                                                                                                                                         
+         3 Pearson Education              45 New York USA                                                                                                                                               
+         2 Campus Press                   21 Durocher Avenue Quebec Canada                                                                                                                              
+         1 Course Technology              13 Ontario Street Canada                                                                                                                                      
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --g)
+SQL> 
+SQL> select b_id as "BookID", sum(c_price) as "SUMOFPRICE"
+  2  from chapter
+  3  group by b_id
+  4  order by b_id asc;
+
+    BookID SUMOFPRICE                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         1         12                                                                                                                                                                                   
+         2         96                                                                                                                                                                                   
+         3         65                                                                                                                                                                                   
+         4         77                                                                                                                                                                                   
+         5        128                                                                                                                                                                                   
+         6          0                                                                                                                                                                                   
+
+6 rows selected.
+
+SQL> 
+SQL> select * from chapter;
+
+      B_ID       C_NO C_TITLE                        C_    C_PRICE                                                                                                                                      
+---------- ---------- ------------------------------ -- ----------                                                                                                                                      
+         1          1 Java 1                         TS         12                                                                                                                                      
+         1          2 Java 2                         NS          0                                                                                                                                      
+         2          1 Oracle 1                       TS         22                                                                                                                                      
+         2          2 Oracle 2                       TS         32                                                                                                                                      
+         2          3 Oracle 3                       TS         42                                                                                                                                      
+         3          1 History 1                      NS          0                                                                                                                                      
+         3          2 History 2                      NS          0                                                                                                                                      
+         3          3 History 3                      TS         65                                                                                                                                      
+         4          1 PHP 1                          TS         12                                                                                                                                      
+         4          2 PHP 2                          TS         65                                                                                                                                      
+         5          1 Economy 1                      TS         52                                                                                                                                      
+         5          2 Economy 2                      TS         76                                                                                                                                      
+         6          1 Business 1                     NS          0                                                                                                                                      
+
+13 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --h)
+SQL> 
+SQL> select b_author as "Book Author", b_price as "Book Price"
+  2  from book
+  3  order by b_price asc;
+
+Book Author                    Book Price                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Paul Henry                           12.6                                                                                                                                                               
+Stev Jeff                            42.4                                                                                                                                                               
+Paul Tremblay                        43.3                                                                                                                                                               
+James Peter                          66.7                                                                                                                                                               
+Eduard Becker                       202.3                                                                                                                                                               
+Amine Khan                          252.4                                                                                                                                                               
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> select b_author as "Book Author", b_price as "Book Price"
+  2  from book
+  3  order by b_price desc;
+
+Book Author                    Book Price                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Amine Khan                          252.4                                                                                                                                                               
+Eduard Becker                       202.3                                                                                                                                                               
+James Peter                          66.7                                                                                                                                                               
+Paul Tremblay                        43.3                                                                                                                                                               
+Stev Jeff                            42.4                                                                                                                                                               
+Paul Henry                           12.6                                                                                                                                                               
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --i)
+SQL> 
+SQL> select b_author as "Book Author", b_title as "Book Title", b_price as "Book Price"
+  2  from book
+  3  where b_price between 40 and 70
+  4  order by b_price desc;
+
+Book Author                    Book Title                     Book Price                                                                                                                                
+------------------------------ ------------------------------ ----------                                                                                                                                
+James Peter                    PHP Programming                      66.7                                                                                                                                
+Paul Tremblay                  Economy and Wealth                   43.3                                                                                                                                
+Stev Jeff                      Java Programming                     42.4                                                                                                                                
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --j)
+SQL> 
+SQL> select *
+  2  from publisher;
+
+      P_ID P_NAME                         P_ADDRESS                                                                                                                                                     
+---------- ------------------------------ ----------------------------------------                                                                                                                      
+         1 Course Technology              13 Ontario Street Canada                                                                                                                                      
+         2 Campus Press                   21 Durocher Avenue Quebec Canada                                                                                                                              
+         3 Pearson Education              45 New York USA                                                                                                                                               
+         4 Harvard Publishing             New Hamphshir, Boston                                                                                                                                         
+         5 MIT Publishing                 32 Square Paule Boston, USA                                                                                                                                   
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --k)
+SQL> 
+SQL> select b_id as "BookID", sum(c_price) as "SUMOFPRICE"
+  2  from chapter
+  3  where b_id between 1 and 5
+  4  group by b_id
+  5  order by b_id desc;
+
+    BookID SUMOFPRICE                                                                                                                                                                                   
+---------- ----------                                                                                                                                                                                   
+         5        128                                                                                                                                                                                   
+         4         77                                                                                                                                                                                   
+         3         65                                                                                                                                                                                   
+         2         96                                                                                                                                                                                   
+         1         12                                                                                                                                                                                   
+
+SQL> 
+SQL> select * from chapter;
+
+      B_ID       C_NO C_TITLE                        C_    C_PRICE                                                                                                                                      
+---------- ---------- ------------------------------ -- ----------                                                                                                                                      
+         1          1 Java 1                         TS         12                                                                                                                                      
+         1          2 Java 2                         NS          0                                                                                                                                      
+         2          1 Oracle 1                       TS         22                                                                                                                                      
+         2          2 Oracle 2                       TS         32                                                                                                                                      
+         2          3 Oracle 3                       TS         42                                                                                                                                      
+         3          1 History 1                      NS          0                                                                                                                                      
+         3          2 History 2                      NS          0                                                                                                                                      
+         3          3 History 3                      TS         65                                                                                                                                      
+         4          1 PHP 1                          TS         12                                                                                                                                      
+         4          2 PHP 2                          TS         65                                                                                                                                      
+         5          1 Economy 1                      TS         52                                                                                                                                      
+         5          2 Economy 2                      TS         76                                                                                                                                      
+         6          1 Business 1                     NS          0                                                                                                                                      
+
+13 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --l)
+SQL> 
+SQL> select b_author as "Book Author", b_price as "Book Price"
+  2  from book
+  3  where b_author like 'Paul%'
+  4  order by b_price asc;
+
+Book Author                    Book Price                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Paul Henry                           12.6                                                                                                                                                               
+Paul Tremblay                        43.3                                                                                                                                                               
+
+SQL> 
+SQL> 
+SQL> 
+SQL> select b_author as "Book Author", b_title as "Book Title"
+  2  from book
+  3  where b_title like '%Programming'
+  4  order by b_author asc;
+
+Book Author                    Book Title                                                                                                                                                               
+------------------------------ ------------------------------                                                                                                                                           
+James Peter                    PHP Programming                                                                                                                                                          
+Stev Jeff                      Java Programming                                                                                                                                                         
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --m)
+SQL> 
+SQL> select b_id as "BookID", sum(c_price) as "SUMOFPRICE", (sum(c_price)*1.21) as "Price With Taxes * 1.21"
+  2  from chapter
+  3  group by b_id
+  4  order by b_id desc;
+
+    BookID SUMOFPRICE Price With Taxes * 1.21                                                                                                                                                           
+---------- ---------- -----------------------                                                                                                                                                           
+         6          0                       0                                                                                                                                                           
+         5        128                  154.88                                                                                                                                                           
+         4         77                   93.17                                                                                                                                                           
+         3         65                   78.65                                                                                                                                                           
+         2         96                  116.16                                                                                                                                                           
+         1         12                   14.52                                                                                                                                                           
+
+6 rows selected.
+
+SQL> 
+SQL> select * from chapter;
+
+      B_ID       C_NO C_TITLE                        C_    C_PRICE                                                                                                                                      
+---------- ---------- ------------------------------ -- ----------                                                                                                                                      
+         1          1 Java 1                         TS         12                                                                                                                                      
+         1          2 Java 2                         NS          0                                                                                                                                      
+         2          1 Oracle 1                       TS         22                                                                                                                                      
+         2          2 Oracle 2                       TS         32                                                                                                                                      
+         2          3 Oracle 3                       TS         42                                                                                                                                      
+         3          1 History 1                      NS          0                                                                                                                                      
+         3          2 History 2                      NS          0                                                                                                                                      
+         3          3 History 3                      TS         65                                                                                                                                      
+         4          1 PHP 1                          TS         12                                                                                                                                      
+         4          2 PHP 2                          TS         65                                                                                                                                      
+         5          1 Economy 1                      TS         52                                                                                                                                      
+         5          2 Economy 2                      TS         76                                                                                                                                      
+         6          1 Business 1                     NS          0                                                                                                                                      
+
+13 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --n)
+SQL> 
+SQL> 
+SQL> select count(c_no) as "Number of Chapter"
+  2  from chapter
+  3  where b_id = 2;
+
+Number of Chapter                                                                                                                                                                                       
+-----------------                                                                                                                                                                                       
+                3                                                                                                                                                                                       
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> spool off;

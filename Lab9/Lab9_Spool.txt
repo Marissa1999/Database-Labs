@@ -1,0 +1,590 @@
+SQL> 
+SQL> 
+SQL> --Question 1:
+SQL> 
+SQL> START "D:\Marissa\SchoolDB_Script.sql"
+SQL> -- SchoolDB_Script.sql
+SQL> 
+SQL> 
+SQL> drop table faculty cascade constraints;
+
+Table dropped.
+
+SQL> drop table student cascade constraints;
+
+Table dropped.
+
+SQL> drop table course cascade constraints;
+
+Table dropped.
+
+SQL> drop table enrollment cascade constraints;
+
+Table dropped.
+
+SQL> 
+SQL> 
+SQL> create table faculty
+  2  (f_id    number(1),
+  3   f_last  varchar2(15),
+  4   f_first varchar2(15),
+  5   constraint faculty_f_id_pk primary key (f_id)
+  6  );
+
+Table created.
+
+SQL> 
+SQL> create table student
+  2  (s_id    number(1),
+  3   s_last  varchar2(15),
+  4   s_first varchar2(15),
+  5   s_class varchar2(2),
+  6   f_id    number(1),
+  7   constraint student_s_id_pk primary key (s_id),
+  8   constraint student_f_id_fk foreign key (f_id) references faculty (f_id)
+  9  );
+
+Table created.
+
+SQL> 
+SQL> create table course
+  2  (course_no    varchar2(7),
+  3   course_name  varchar2(25),
+  4   credits	   number(1),
+  5   max_enrl	   number(3),
+  6   constraint course_course_no_pk primary key (course_no)
+  7  );
+
+Table created.
+
+SQL> 
+SQL> create table enrollment
+  2  (s_id	   number(1),
+  3   course_no    varchar2(7),
+  4   grade	   varchar2(2),
+  5   constraint enrollment_s_id_course_no_pk primary key (s_id, course_no),
+  6   constraint enrollment_s_id_fk foreign key (s_id) references student (s_id),
+  7   constraint enrollment_course_no_fk foreign key (course_no) references course (course_no)
+  8  );
+
+Table created.
+
+SQL> 
+SQL> insert into faculty values (1, 'Robertson', 'Myra');
+
+1 row created.
+
+SQL> insert into faculty values (2, 'Smith', 'Neal');
+
+1 row created.
+
+SQL> insert into faculty values (3, 'Arlec', 'Lisa');
+
+1 row created.
+
+SQL> insert into faculty values (4, 'Fillipo', 'Paul');
+
+1 row created.
+
+SQL> insert into faculty values (5, 'Denver', 'Paul');
+
+1 row created.
+
+SQL> 
+SQL> insert into student values (1, 'Graham', 'Bill', 'JR', 4);
+
+1 row created.
+
+SQL> insert into student values (2, 'Sanchez', 'Jim', 'EX', 3);
+
+1 row created.
+
+SQL> insert into student values (3, 'White', 'Peter', 'EX', 3);
+
+1 row created.
+
+SQL> insert into student values (4, 'Phelp', 'David', 'JR', 1);
+
+1 row created.
+
+SQL> insert into student values (5, 'Lewis', 'Sheila', 'SR', 2);
+
+1 row created.
+
+SQL> insert into student values (6, 'James', 'Thomas', 'JR', 1);
+
+1 row created.
+
+SQL> 
+SQL> insert into course values ('MIS 101', 'Intro. to Info. Systems', 3, 140);
+
+1 row created.
+
+SQL> insert into course values ('MIS 301', 'Systems Analysis', 3, 35);
+
+1 row created.
+
+SQL> insert into course values ('MIS 441', 'Database Management', 3, 12);
+
+1 row created.
+
+SQL> insert into course values ('CS 155', 'Programming in C++', 3, 90);
+
+1 row created.
+
+SQL> insert into course values ('MIS 451', 'Web-Based Systems', 3, 30);
+
+1 row created.
+
+SQL> insert into course values ('MIS 551', 'Advanced Web', 3, 30);
+
+1 row created.
+
+SQL> insert into course values ('MIS 651', 'Advanced Java', 3, 30);
+
+1 row created.
+
+SQL> 
+SQL> insert into enrollment values (1, 'MIS 101', 'A+');
+
+1 row created.
+
+SQL> insert into enrollment values (5, 'MIS 301', 'B-');
+
+1 row created.
+
+SQL> insert into enrollment values (2, 'MIS 441', 'A-');
+
+1 row created.
+
+SQL> insert into enrollment values (3, 'CS 155', 'B-');
+
+1 row created.
+
+SQL> insert into enrollment values (5, 'MIS 451', 'A+');
+
+1 row created.
+
+SQL> insert into enrollment values (4, 'MIS 551', 'B+');
+
+1 row created.
+
+SQL> insert into enrollment values (6, 'MIS 651', 'C+');
+
+1 row created.
+
+SQL> insert into enrollment values (3, 'MIS 301', 'B-');
+
+1 row created.
+
+SQL> insert into enrollment values (4, 'MIS 441', 'A-');
+
+1 row created.
+
+SQL> insert into enrollment values (4, 'CS 155', 'B-');
+
+1 row created.
+
+SQL> insert into enrollment values (2, 'MIS 451', 'A+');
+
+1 row created.
+
+SQL> insert into enrollment values (6, 'MIS 551', 'B+');
+
+1 row created.
+
+SQL> insert into enrollment values (3, 'MIS 651', 'C+');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 2:
+SQL> 
+SQL> 
+SQL> --a)
+SQL> 
+SQL> SELECT student.s_id, student.s_last, student.s_class, faculty.f_last, faculty.f_first
+  2  FROM student, faculty
+  3  WHERE student.f_id = faculty.f_id;
+
+      S_ID S_LAST          S_ F_LAST          F_FIRST                                                                                                                                                   
+---------- --------------- -- --------------- ---------------                                                                                                                                           
+         1 Graham          JR Fillipo         Paul                                                                                                                                                      
+         2 Sanchez         EX Arlec           Lisa                                                                                                                                                      
+         3 White           EX Arlec           Lisa                                                                                                                                                      
+         4 Phelp           JR Robertson       Myra                                                                                                                                                      
+         5 Lewis           SR Smith           Neal                                                                                                                                                      
+         6 James           JR Robertson       Myra                                                                                                                                                      
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --b)
+SQL> 
+SQL> SELECT student.s_id, student.s_last, student.s_class, faculty.f_last, faculty.f_first
+  2  FROM student, faculty
+  3  WHERE student.f_id = faculty.f_id;
+
+      S_ID S_LAST          S_ F_LAST          F_FIRST                                                                                                                                                   
+---------- --------------- -- --------------- ---------------                                                                                                                                           
+         1 Graham          JR Fillipo         Paul                                                                                                                                                      
+         2 Sanchez         EX Arlec           Lisa                                                                                                                                                      
+         3 White           EX Arlec           Lisa                                                                                                                                                      
+         4 Phelp           JR Robertson       Myra                                                                                                                                                      
+         5 Lewis           SR Smith           Neal                                                                                                                                                      
+         6 James           JR Robertson       Myra                                                                                                                                                      
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --c)
+SQL> 
+SQL> SELECT student.s_last, student.s_first, faculty.f_last, faculty.f_first
+  2  FROM student, faculty;
+
+S_LAST          S_FIRST         F_LAST          F_FIRST                                                                                                                                                 
+--------------- --------------- --------------- ---------------                                                                                                                                         
+Graham          Bill            Robertson       Myra                                                                                                                                                    
+Sanchez         Jim             Robertson       Myra                                                                                                                                                    
+White           Peter           Robertson       Myra                                                                                                                                                    
+Phelp           David           Robertson       Myra                                                                                                                                                    
+Lewis           Sheila          Robertson       Myra                                                                                                                                                    
+James           Thomas          Robertson       Myra                                                                                                                                                    
+Graham          Bill            Smith           Neal                                                                                                                                                    
+Sanchez         Jim             Smith           Neal                                                                                                                                                    
+White           Peter           Smith           Neal                                                                                                                                                    
+Phelp           David           Smith           Neal                                                                                                                                                    
+Lewis           Sheila          Smith           Neal                                                                                                                                                    
+James           Thomas          Smith           Neal                                                                                                                                                    
+Graham          Bill            Arlec           Lisa                                                                                                                                                    
+Sanchez         Jim             Arlec           Lisa                                                                                                                                                    
+White           Peter           Arlec           Lisa                                                                                                                                                    
+Phelp           David           Arlec           Lisa                                                                                                                                                    
+Lewis           Sheila          Arlec           Lisa                                                                                                                                                    
+James           Thomas          Arlec           Lisa                                                                                                                                                    
+Graham          Bill            Fillipo         Paul                                                                                                                                                    
+Sanchez         Jim             Fillipo         Paul                                                                                                                                                    
+White           Peter           Fillipo         Paul                                                                                                                                                    
+Phelp           David           Fillipo         Paul                                                                                                                                                    
+Lewis           Sheila          Fillipo         Paul                                                                                                                                                    
+James           Thomas          Fillipo         Paul                                                                                                                                                    
+Graham          Bill            Denver          Paul                                                                                                                                                    
+Sanchez         Jim             Denver          Paul                                                                                                                                                    
+White           Peter           Denver          Paul                                                                                                                                                    
+Phelp           David           Denver          Paul                                                                                                                                                    
+Lewis           Sheila          Denver          Paul                                                                                                                                                    
+James           Thomas          Denver          Paul                                                                                                                                                    
+
+30 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --d)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_class, f.f_last, f.f_first
+  2  FROM student s, faculty f
+  3  WHERE s.f_id = f.f_id;
+
+      S_ID S_LAST          S_ F_LAST          F_FIRST                                                                                                                                                   
+---------- --------------- -- --------------- ---------------                                                                                                                                           
+         1 Graham          JR Fillipo         Paul                                                                                                                                                      
+         2 Sanchez         EX Arlec           Lisa                                                                                                                                                      
+         3 White           EX Arlec           Lisa                                                                                                                                                      
+         4 Phelp           JR Robertson       Myra                                                                                                                                                      
+         5 Lewis           SR Smith           Neal                                                                                                                                                      
+         6 James           JR Robertson       Myra                                                                                                                                                      
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --e)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_class, f.f_last, f.f_first
+  2  FROM student s, faculty f
+  3  WHERE s.f_id = f.f_id AND s.s_class = 'EX';
+
+      S_ID S_LAST          S_ F_LAST          F_FIRST                                                                                                                                                   
+---------- --------------- -- --------------- ---------------                                                                                                                                           
+         2 Sanchez         EX Arlec           Lisa                                                                                                                                                      
+         3 White           EX Arlec           Lisa                                                                                                                                                      
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 3:
+SQL> 
+SQL> --a)
+SQL> 
+SQL> SELECT s.s_id, e.course_no, e.grade, s.s_last, s.s_first
+  2  FROM student s, enrollment e
+  3  WHERE s.s_id = e.s_id;
+
+      S_ID COURSE_ GR S_LAST          S_FIRST                                                                                                                                                           
+---------- ------- -- --------------- ---------------                                                                                                                                                   
+         1 MIS 101 A+ Graham          Bill                                                                                                                                                              
+         5 MIS 301 B- Lewis           Sheila                                                                                                                                                            
+         2 MIS 441 A- Sanchez         Jim                                                                                                                                                               
+         3 CS 155  B- White           Peter                                                                                                                                                             
+         5 MIS 451 A+ Lewis           Sheila                                                                                                                                                            
+         4 MIS 551 B+ Phelp           David                                                                                                                                                             
+         6 MIS 651 C+ James           Thomas                                                                                                                                                            
+         3 MIS 301 B- White           Peter                                                                                                                                                             
+         4 MIS 441 A- Phelp           David                                                                                                                                                             
+         4 CS 155  B- Phelp           David                                                                                                                                                             
+         2 MIS 451 A+ Sanchez         Jim                                                                                                                                                               
+         6 MIS 551 B+ James           Thomas                                                                                                                                                            
+         3 MIS 651 C+ White           Peter                                                                                                                                                             
+
+13 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --b)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, e.course_no, c.course_name, e.grade
+  2  FROM student s, enrollment e, course c
+  3  WHERE s.s_id = e.s_id AND e.course_no = c.course_no
+  4  ORDER BY s.s_id;
+
+      S_ID S_LAST          S_FIRST         COURSE_ COURSE_NAME               GR                                                                                                                         
+---------- --------------- --------------- ------- ------------------------- --                                                                                                                         
+         1 Graham          Bill            MIS 101 Intro. to Info. Systems   A+                                                                                                                         
+         2 Sanchez         Jim             MIS 441 Database Management       A-                                                                                                                         
+         2 Sanchez         Jim             MIS 451 Web-Based Systems         A+                                                                                                                         
+         3 White           Peter           MIS 301 Systems Analysis          B-                                                                                                                         
+         3 White           Peter           CS 155  Programming in C++        B-                                                                                                                         
+         3 White           Peter           MIS 651 Advanced Java             C+                                                                                                                         
+         4 Phelp           David           MIS 551 Advanced Web              B+                                                                                                                         
+         4 Phelp           David           CS 155  Programming in C++        B-                                                                                                                         
+         4 Phelp           David           MIS 441 Database Management       A-                                                                                                                         
+         5 Lewis           Sheila          MIS 301 Systems Analysis          B-                                                                                                                         
+         5 Lewis           Sheila          MIS 451 Web-Based Systems         A+                                                                                                                         
+         6 James           Thomas          MIS 651 Advanced Java             C+                                                                                                                         
+         6 James           Thomas          MIS 551 Advanced Web              B+                                                                                                                         
+
+13 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --c)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, e.course_no, c.course_name, e.grade
+  2  FROM student s, enrollment e, course c
+  3  WHERE s.s_id = e.s_id AND e.course_no = c.course_no AND c.course_no = 'MIS 551';
+
+      S_ID S_LAST          S_FIRST         COURSE_ COURSE_NAME               GR                                                                                                                         
+---------- --------------- --------------- ------- ------------------------- --                                                                                                                         
+         4 Phelp           David           MIS 551 Advanced Web              B+                                                                                                                         
+         6 James           Thomas          MIS 551 Advanced Web              B+                                                                                                                         
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --d)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, e.course_no, c.course_name, e.grade
+  2  FROM student s, enrollment e, course c
+  3  WHERE s.s_id = e.s_id AND e.course_no = c.course_no AND (e.grade = 'A+' OR e.grade = 'A-')
+  4  ORDER BY s.s_id;
+
+      S_ID S_LAST          S_FIRST         COURSE_ COURSE_NAME               GR                                                                                                                         
+---------- --------------- --------------- ------- ------------------------- --                                                                                                                         
+         1 Graham          Bill            MIS 101 Intro. to Info. Systems   A+                                                                                                                         
+         2 Sanchez         Jim             MIS 441 Database Management       A-                                                                                                                         
+         2 Sanchez         Jim             MIS 451 Web-Based Systems         A+                                                                                                                         
+         4 Phelp           David           MIS 441 Database Management       A-                                                                                                                         
+         5 Lewis           Sheila          MIS 451 Web-Based Systems         A+                                                                                                                         
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --e)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, e.course_no, c.course_name, e.grade
+  2  FROM student s, enrollment e, course c
+  3  WHERE s.s_id = e.s_id AND e.course_no = c.course_no AND c.course_name LIKE '%Systems%'
+  4  ORDER BY s.s_id;
+
+      S_ID S_LAST          S_FIRST         COURSE_ COURSE_NAME               GR                                                                                                                         
+---------- --------------- --------------- ------- ------------------------- --                                                                                                                         
+         1 Graham          Bill            MIS 101 Intro. to Info. Systems   A+                                                                                                                         
+         2 Sanchez         Jim             MIS 451 Web-Based Systems         A+                                                                                                                         
+         3 White           Peter           MIS 301 Systems Analysis          B-                                                                                                                         
+         5 Lewis           Sheila          MIS 451 Web-Based Systems         A+                                                                                                                         
+         5 Lewis           Sheila          MIS 301 Systems Analysis          B-                                                                                                                         
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --f)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, e.course_no, c.course_name, e.grade, f.f_last
+  2  FROM student s, enrollment e, course c, faculty f
+  3  WHERE s.s_id = e.s_id AND e.course_no = c.course_no AND s.f_id = f.f_id AND (e.grade = 'C+' OR e.grade = 'B-')
+  4  ORDER BY s.s_id;
+
+      S_ID S_LAST          S_FIRST         COURSE_ COURSE_NAME               GR F_LAST                                                                                                                  
+---------- --------------- --------------- ------- ------------------------- -- ---------------                                                                                                         
+         3 White           Peter           MIS 301 Systems Analysis          B- Arlec                                                                                                                   
+         3 White           Peter           MIS 651 Advanced Java             C+ Arlec                                                                                                                   
+         3 White           Peter           CS 155  Programming in C++        B- Arlec                                                                                                                   
+         4 Phelp           David           CS 155  Programming in C++        B- Robertson                                                                                                               
+         5 Lewis           Sheila          MIS 301 Systems Analysis          B- Smith                                                                                                                   
+         6 James           Thomas          MIS 651 Advanced Java             C+ Robertson                                                                                                               
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --g)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, e.course_no, c.course_name, e.grade, f.f_last
+  2  FROM student s, enrollment e, course c, faculty f
+  3  WHERE s.s_id = e.s_id AND e.course_no = c.course_no AND s.f_id = f.f_id AND (e.grade = 'A+' OR e.grade = 'A-') AND c.course_name LIKE '%Systems%'
+  4  ORDER BY s.s_id;
+
+      S_ID S_LAST          S_FIRST         COURSE_ COURSE_NAME               GR F_LAST                                                                                                                  
+---------- --------------- --------------- ------- ------------------------- -- ---------------                                                                                                         
+         1 Graham          Bill            MIS 101 Intro. to Info. Systems   A+ Fillipo                                                                                                                 
+         2 Sanchez         Jim             MIS 451 Web-Based Systems         A+ Arlec                                                                                                                   
+         5 Lewis           Sheila          MIS 451 Web-Based Systems         A+ Smith                                                                                                                   
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --h)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, e.course_no, c.course_name, e.grade, f.f_last
+  2  FROM student s, enrollment e, course c, faculty f
+  3  WHERE s.s_id = e.s_id AND e.course_no = c.course_no AND s.f_id = f.f_id AND (e.grade = 'B+' OR e.grade = 'B-') AND s.s_last = 'White' AND s.s_first = 'Peter'
+  4  ORDER BY s.s_id;
+
+      S_ID S_LAST          S_FIRST         COURSE_ COURSE_NAME               GR F_LAST                                                                                                                  
+---------- --------------- --------------- ------- ------------------------- -- ---------------                                                                                                         
+         3 White           Peter           MIS 301 Systems Analysis          B- Arlec                                                                                                                   
+         3 White           Peter           CS 155  Programming in C++        B- Arlec                                                                                                                   
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --i)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, e.course_no, c.course_name, e.grade, f.f_last
+  2  FROM student s, enrollment e, course c, faculty f
+  3  WHERE s.s_id = e.s_id AND e.course_no = c.course_no AND s.f_id = f.f_id AND (e.grade = 'A+' OR e.grade = 'B-') AND f.f_last = 'Arlec' AND f.f_first = 'Lisa'
+  4  ORDER BY s.s_id;
+
+      S_ID S_LAST          S_FIRST         COURSE_ COURSE_NAME               GR F_LAST                                                                                                                  
+---------- --------------- --------------- ------- ------------------------- -- ---------------                                                                                                         
+         2 Sanchez         Jim             MIS 451 Web-Based Systems         A+ Arlec                                                                                                                   
+         3 White           Peter           CS 155  Programming in C++        B- Arlec                                                                                                                   
+         3 White           Peter           MIS 301 Systems Analysis          B- Arlec                                                                                                                   
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --j)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, e.course_no, c.course_name, e.grade, f.f_last
+  2  FROM student s, enrollment e, course c, faculty f
+  3  WHERE s.s_id = e.s_id AND e.course_no = c.course_no AND s.f_id = f.f_id AND s.s_class = 'JR'
+  4  ORDER BY s.s_id;
+
+      S_ID S_LAST          S_FIRST         COURSE_ COURSE_NAME               GR F_LAST                                                                                                                  
+---------- --------------- --------------- ------- ------------------------- -- ---------------                                                                                                         
+         1 Graham          Bill            MIS 101 Intro. to Info. Systems   A+ Fillipo                                                                                                                 
+         4 Phelp           David           MIS 441 Database Management       A- Robertson                                                                                                               
+         4 Phelp           David           CS 155  Programming in C++        B- Robertson                                                                                                               
+         4 Phelp           David           MIS 551 Advanced Web              B+ Robertson                                                                                                               
+         6 James           Thomas          MIS 551 Advanced Web              B+ Robertson                                                                                                               
+         6 James           Thomas          MIS 651 Advanced Java             C+ Robertson                                                                                                               
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --k)
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_first, e.course_no, c.course_name, e.grade, f.f_last, f.f_first, s.s_class
+  2  FROM student s, enrollment e, course c, faculty f
+  3  WHERE s.s_id = e.s_id AND e.course_no = c.course_no AND s.f_id = f.f_id AND (s.s_class = 'EX' OR s.s_class = 'SR') AND (f.f_last = 'Arlec' OR f.f_last = 'Smith')
+  4  ORDER BY s.s_id, c.course_name;
+
+      S_ID S_LAST          S_FIRST         COURSE_ COURSE_NAME               GR F_LAST          F_FIRST         S_                                                                                      
+---------- --------------- --------------- ------- ------------------------- -- --------------- --------------- --                                                                                      
+         2 Sanchez         Jim             MIS 441 Database Management       A- Arlec           Lisa            EX                                                                                      
+         2 Sanchez         Jim             MIS 451 Web-Based Systems         A+ Arlec           Lisa            EX                                                                                      
+         3 White           Peter           MIS 651 Advanced Java             C+ Arlec           Lisa            EX                                                                                      
+         3 White           Peter           CS 155  Programming in C++        B- Arlec           Lisa            EX                                                                                      
+         3 White           Peter           MIS 301 Systems Analysis          B- Arlec           Lisa            EX                                                                                      
+         5 Lewis           Sheila          MIS 301 Systems Analysis          B- Smith           Neal            SR                                                                                      
+         5 Lewis           Sheila          MIS 451 Web-Based Systems         A+ Smith           Neal            SR                                                                                      
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SPOOL OFF;

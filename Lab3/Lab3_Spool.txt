@@ -1,0 +1,428 @@
+SQL> 
+SQL> 
+SQL> 
+SQL> --Step 1:
+SQL> 
+SQL> 
+SQL> --a)
+SQL> 
+SQL> CREATE TABLE student
+  2  (s_id NUMBER(5),
+  3  s_last VARCHAR2(30),
+  4  s_first VARCHAR2(30),
+  5  s_class VARCHAR2(2),
+  6  f_id NUMBER(5),
+  7  CONSTRAINT student_s_id_pk PRIMARY KEY (s_id));
+CREATE TABLE student
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --b)
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (1, 'Graham', 'Bill', 'JR', 4);
+INSERT INTO STUDENT VALUES
+            *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (2, 'Sanchez', 'Jim', 'EX', 3);
+INSERT INTO STUDENT VALUES
+            *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (3, 'White', 'Peter', 'EX', 3);
+INSERT INTO STUDENT VALUES
+            *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (4, 'Phelp', 'David', 'JR', 1);
+INSERT INTO STUDENT VALUES
+            *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (5, 'Lewis', 'Shelia', 'SR', 2);
+INSERT INTO STUDENT VALUES
+            *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (6, 'James', 'Thomas', 'JR', 1);
+INSERT INTO STUDENT VALUES
+            *
+ERROR at line 1:
+ORA-00947: not enough values 
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --c)
+SQL> 
+SQL> CREATE TABLE vanier_enrollment
+  2  (s_id NUMBER(5),
+  3  course_no VARCHAR2(7),
+  4  grade CHAR(2),
+  5  CONSTRAINT enrollment_grade_cc CHECK ((grade = 'A+') or (grade = 'A-')));
+CREATE TABLE vanier_enrollment
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --d)
+SQL> 
+SQL> INSERT INTO vanier_enrollment VALUES
+  2  (3, 'MIS 301', 'A-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO vanier_enrollment VALUES
+  2  (4, 'MIS 303', 'D');
+INSERT INTO vanier_enrollment VALUES
+*
+ERROR at line 1:
+ORA-02290: check constraint (SCOTT.ENROLLMENT_GRADE_CC) violated 
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Step 2:
+SQL> 
+SQL> SELECT constraint_name, constraint_type FROM user_constraints
+  2  WHERE table_name = 'VANIER_ENROLLMENT';
+
+CONSTRAINT_NAME                C                                                
+------------------------------ -                                                
+ENROLLMENT_GRADE_CC            C                                                
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Step 3:
+SQL> 
+SQL> 
+SQL> --a)
+SQL> 
+SQL> ALTER TABLE student
+  2  ADD SocialSecurity CHAR(9);
+ADD SocialSecurity CHAR(9)
+    *
+ERROR at line 2:
+ORA-01430: column being added already exists in table 
+
+
+SQL> 
+SQL> ALTER TABLE student
+  2  MODIFY SocialSecurity CHAR(11);
+
+Table altered.
+
+SQL> 
+SQL> 
+SQL> --b)
+SQL> 
+SQL> ALTER TABLE vanier_enrollment
+  2  ADD CONSTRAINT vanier_enrollment_pk PRIMARY KEY (s_id, course_no);
+ADD CONSTRAINT vanier_enrollment_pk PRIMARY KEY (s_id, course_no)
+                                                       *
+ERROR at line 2:
+ORA-00904: "COURSE_NO": invalid identifier 
+
+
+SQL> 
+SQL> 
+SQL> --c)
+SQL> 
+SQL> ALTER TABLE vanier_enrollment
+  2  DROP PRIMARY KEY;
+ALTER TABLE vanier_enrollment
+*
+ERROR at line 1:
+ORA-02441: Cannot drop nonexistent primary key 
+
+
+SQL> 
+SQL> ALTER TABLE vanier_enrollment
+  2  DROP CONSTRAINT enrollment_grade_cc;
+
+Table altered.
+
+SQL> 
+SQL> 
+SQL> --d)
+SQL> 
+SQL> ALTER TABLE vanier_enrollment
+  2  ADD CONSTRAINT enrollment_grade_cc CHECK ((grade = 'A+') or (grade = 'A-'));
+
+Table altered.
+
+SQL> 
+SQL> 
+SQL> --e)
+SQL> 
+SQL> ALTER TABLE vanier_enrollment
+  2  RENAME COLUMN course_no TO "c_number";
+ALTER TABLE vanier_enrollment
+*
+ERROR at line 1:
+ORA-00957: duplicate column name 
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Step 4:
+SQL> 
+SQL> --a)
+SQL> 
+SQL> CREATE TABLE faculty
+  2  (f_id NUMBER(5),
+  3  f_last VARCHAR2(30),
+  4  f_first VARCHAR2(30),
+  5  CONSTRAINT faculty_f_id_pk PRIMARY KEY (f_id));
+CREATE TABLE faculty
+             *
+ERROR at line 1:
+ORA-00955: name is already used by an existing object 
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --b)
+SQL> 
+SQL> INSERT INTO faculty VALUES
+  2  (1, 'Robertson', 'Myra');
+INSERT INTO faculty VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.FACULTY_F_ID_PK) violated 
+
+
+SQL> 
+SQL> INSERT INTO faculty VALUES
+  2  (2, 'Smith', 'Neal');
+INSERT INTO faculty VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.FACULTY_F_ID_PK) violated 
+
+
+SQL> 
+SQL> INSERT INTO faculty VALUES
+  2  (3, 'Arlec', 'Lisa');
+INSERT INTO faculty VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.FACULTY_F_ID_PK) violated 
+
+
+SQL> 
+SQL> INSERT INTO faculty VALUES
+  2  (4, 'Fillipo', 'Paul');
+INSERT INTO faculty VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.FACULTY_F_ID_PK) violated 
+
+
+SQL> 
+SQL> INSERT INTO faculty VALUES
+  2  (5, 'Denver', 'Paul');
+INSERT INTO faculty VALUES
+*
+ERROR at line 1:
+ORA-00001: unique constraint (SCOTT.FACULTY_F_ID_PK) violated 
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --c)
+SQL> 
+SQL> 
+SQL> --a)
+SQL> SELECT f_last "Faculty Last", f_first "FacultyFirst" FROM faculty;
+
+Faculty Last                   FacultyFirst                                     
+------------------------------ ------------------------------                   
+Robertson                      Myra                                             
+Smith                          Neal                                             
+Arlec                          Lisa                                             
+Fillipo                        Paul                                             
+Denver                         Paul                                             
+
+SQL> 
+SQL> --b)
+SQL> SELECT f_last || f_first FROM faculty;
+
+F_LAST||F_FIRST                                                                 
+------------------------------------------------------------                    
+RobertsonMyra                                                                   
+SmithNeal                                                                       
+ArlecLisa                                                                       
+FillipoPaul                                                                     
+DenverPaul                                                                      
+
+SQL> 
+SQL> --c)
+SQL> SELECT DISTINCT f_last FROM faculty;
+
+F_LAST                                                                          
+------------------------------                                                  
+Denver                                                                          
+Fillipo                                                                         
+Arlec                                                                           
+Robertson                                                                       
+Smith                                                                           
+
+SQL> 
+SQL> --d)
+SQL> SELECT f_last, f_first
+  2  FROM faculty
+  3  WHERE f_id=4;
+
+F_LAST                         F_FIRST                                          
+------------------------------ ------------------------------                   
+Fillipo                        Paul                                             
+
+SQL> 
+SQL> --e)
+SQL> SELECT f_id, f_last, f_first
+  2  FROM faculty
+  3  WHERE f_id>=2 AND f_id<=4;
+
+      F_ID F_LAST                         F_FIRST                               
+---------- ------------------------------ ------------------------------        
+         2 Smith                          Neal                                  
+         3 Arlec                          Lisa                                  
+         4 Fillipo                        Paul                                  
+
+SQL> 
+SQL> SELECT f_id, f_last, f_first
+  2  FROM faculty
+  3  WHERE f_id BETWEEN 2 AND 4;
+
+      F_ID F_LAST                         F_FIRST                               
+---------- ------------------------------ ------------------------------        
+         2 Smith                          Neal                                  
+         3 Arlec                          Lisa                                  
+         4 Fillipo                        Paul                                  
+
+SQL> 
+SQL> --f)
+SQL> SELECT f_id, f_last, f_first
+  2  FROM faculty
+  3  WHERE f_id IN(2, 4, 6);
+
+      F_ID F_LAST                         F_FIRST                               
+---------- ------------------------------ ------------------------------        
+         2 Smith                          Neal                                  
+         4 Fillipo                        Paul                                  
+
+SQL> 
+SQL> --g)
+SQL> SELECT f_id, f_last, f_first
+  2  FROM faculty
+  3  WHERE f_id NOT IN(2, 4, 6);
+
+      F_ID F_LAST                         F_FIRST                               
+---------- ------------------------------ ------------------------------        
+         1 Robertson                      Myra                                  
+         3 Arlec                          Lisa                                  
+         5 Denver                         Paul                                  
+
+SQL> 
+SQL> --h)
+SQL> SELECT f_id, f_last, f_first
+  2  FROM faculty
+  3  WHERE f_first LIKE 'P%';
+
+      F_ID F_LAST                         F_FIRST                               
+---------- ------------------------------ ------------------------------        
+         4 Fillipo                        Paul                                  
+         5 Denver                         Paul                                  
+
+SQL> 
+SQL> --i)
+SQL> SELECT f_id, f_last, f_first
+  2  FROM faculty
+  3  ORDER BY f_first DESC;
+
+      F_ID F_LAST                         F_FIRST                               
+---------- ------------------------------ ------------------------------        
+         5 Denver                         Paul                                  
+         4 Fillipo                        Paul                                  
+         2 Smith                          Neal                                  
+         1 Robertson                      Myra                                  
+         3 Arlec                          Lisa                                  
+
+SQL> 
+SQL> --j)
+SQL> SELECT b_id,
+  2  SUM(c_price) "SUMOFFICE"
+  3  FROM chapter
+  4  GROUP BY b_id;
+
+      B_ID  SUMOFFICE                                                           
+---------- ----------                                                           
+         1         12                                                           
+         6          0                                                           
+         2         96                                                           
+         4         77                                                           
+         5        128                                                           
+         3         65                                                           
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Step 5:
+SQL> 
+SQL> 
+SQL> spool off

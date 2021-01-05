@@ -1,0 +1,318 @@
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 2:
+SQL> 
+SQL> 
+SQL> --a)
+SQL> 
+SQL> SELECT f_id, UPPER(f_last), LOWER(f_first),
+  2  INITCAP (f_last || ' ' || f_first)
+  3  FROM faculty;
+
+      F_ID UPPER(F_LAST)                  LOWER(F_FIRST)                 INITCAP(F_LAST||''||F_FIRST)                                                                                                   
+---------- ------------------------------ ------------------------------ -------------------------------------------------------------                                                                  
+         1 ROBERTSON                      myra                           Robertson Myra                                                                                                                 
+         2 SMITH                          neal                           Smith Neal                                                                                                                     
+         3 ARLEC                          lisa                           Arlec Lisa                                                                                                                     
+         4 FILLIPO                        paul                           Fillipo Paul                                                                                                                   
+         5 DENVER                         paul                           Denver Paul                                                                                                                    
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT f_last, f_first, f_id
+  2  FROM faculty
+  3  ORDER BY LENGTH(f_last);
+
+F_LAST                         F_FIRST                              F_ID                                                                                                                                
+------------------------------ ------------------------------ ----------                                                                                                                                
+Arlec                          Lisa                                    3                                                                                                                                
+Smith                          Neal                                    2                                                                                                                                
+Denver                         Paul                                    5                                                                                                                                
+Fillipo                        Paul                                    4                                                                                                                                
+Robertson                      Myra                                    1                                                                                                                                
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT course_no, INSTR(course_no, 'S') "The Position of S in Course_No", course_name
+  2  FROM course;
+
+COURSE_ The Position of S in Course_No COURSE_NAME                                                                                                                                                      
+------- ------------------------------ -------------------------                                                                                                                                        
+MIS 101                              3 Intro. to Info. Systems                                                                                                                                          
+MIS 301                              3 Systems Analysis                                                                                                                                                 
+MIS 441                              3 Database Management                                                                                                                                              
+CS 155                               2 Programming in C++                                                                                                                                               
+MIS 451                              3 Web-Based Systems                                                                                                                                                
+MIS 551                              3 Advanced Web                                                                                                                                                     
+MIS 651                              3 Advanced Java                                                                                                                                                    
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --b)
+SQL> 
+SQL> SELECT ROUND(28.7654, 2)
+  2  FROM dual;
+
+ROUND(28.7654,2)                                                                                                                                                                                        
+----------------                                                                                                                                                                                        
+           28.77                                                                                                                                                                                        
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT POWER(2, 4)
+  2  FROM dual;
+
+POWER(2,4)                                                                                                                                                                                              
+----------                                                                                                                                                                                              
+        16                                                                                                                                                                                              
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT CEIL(28.7654)
+  2  FROM dual;
+
+CEIL(28.7654)                                                                                                                                                                                           
+-------------                                                                                                                                                                                           
+           29                                                                                                                                                                                           
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT TRUNC(28.7654, 2)
+  2  FROM dual;
+
+TRUNC(28.7654,2)                                                                                                                                                                                        
+----------------                                                                                                                                                                                        
+           28.76                                                                                                                                                                                        
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --c)
+SQL> 
+SQL> SELECT SYSDATE
+  2  FROM dual;
+
+SYSDATE                                                                                                                                                                                                 
+---------                                                                                                                                                                                               
+04-OCT-18                                                                                                                                                                                               
+
+SQL> 
+SQL> 
+SQL> SELECT ADD_MONTHS('10-MAY-03', 3)
+  2  FROM dual;
+
+ADD_MONTH                                                                                                                                                                                               
+---------                                                                                                                                                                                               
+10-AUG-03                                                                                                                                                                                               
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --d)
+SQL> 
+SQL> SELECT TO_CHAR(SYSDATE, 'DY, MONTH DD, YYYY HH:MI:SS P.M.')
+  2  FROM dual;
+
+TO_CHAR(SYSDATE,'DY,MONTHDD,YYYYHH:MI:SSP.M.')                                                                                                                                                          
+-------------------------------------------------------------------------                                                                                                                               
+THU, OCTOBER   04, 2018 12:51:29 P.M.                                                                                                                                                                   
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --e)
+SQL> 
+SQL> SELECT course_no, course_name, max_enrl,
+  2  DECODE (max_enrl, 140, 'Extra Large Class',
+  3          90, 'Large Class',
+  4  30, 'Medium Class',
+  5  35, 'Unique Class',
+  6  'Small') "Class Desc"
+  7  FROM course;
+
+COURSE_ COURSE_NAME                 MAX_ENRL Class Desc                                                                                                                                                 
+------- ------------------------- ---------- -----------------                                                                                                                                          
+MIS 101 Intro. to Info. Systems          140 Extra Large Class                                                                                                                                          
+MIS 301 Systems Analysis                  35 Unique Class                                                                                                                                               
+MIS 441 Database Management               12 Small                                                                                                                                                      
+CS 155  Programming in C++                90 Large Class                                                                                                                                                
+MIS 451 Web-Based Systems                 30 Medium Class                                                                                                                                               
+MIS 551 Advanced Web                      30 Medium Class                                                                                                                                               
+MIS 651 Advanced Java                     30 Medium Class                                                                                                                                               
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --f)
+SQL> 
+SQL> SELECT SUM(max_enrl), AVG(max_enrl), MAX(max_enrl), MIN(max_enrl)
+  2  FROM course;
+
+SUM(MAX_ENRL) AVG(MAX_ENRL) MAX(MAX_ENRL) MIN(MAX_ENRL)                                                                                                                                                 
+------------- ------------- ------------- -------------                                                                                                                                                 
+          367    52.4285714           140            12                                                                                                                                                 
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 3
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --a)
+SQL> 
+SQL> SELECT *
+  2  FROM faculty
+  3  WHERE f_last LIKE '&NAME';
+Enter value for name: Smith
+old   3: WHERE f_last LIKE '&NAME'
+new   3: WHERE f_last LIKE 'Smith'
+
+      F_ID F_LAST                         F_FIRST                        BIRTHDAY                                                                                                                       
+---------- ------------------------------ ------------------------------ ---------                                                                                                                      
+         2 Smith                          Neal                           12-MAY-50                                                                                                                      
+
+SQL> /
+Enter value for name: Denver
+old   3: WHERE f_last LIKE '&NAME'
+new   3: WHERE f_last LIKE 'Denver'
+
+      F_ID F_LAST                         F_FIRST                        BIRTHDAY                                                                                                                       
+---------- ------------------------------ ------------------------------ ---------                                                                                                                      
+         5 Denver                         Paul                           09-OCT-80                                                                                                                      
+
+SQL> /
+Enter value for name: Arlec
+old   3: WHERE f_last LIKE '&NAME'
+new   3: WHERE f_last LIKE 'Arlec'
+
+      F_ID F_LAST                         F_FIRST                        BIRTHDAY                                                                                                                       
+---------- ------------------------------ ------------------------------ ---------                                                                                                                      
+         3 Arlec                          Lisa                           24-MAR-41                                                                                                                      
+
+SQL> --b)
+SQL> 
+SQL> SELECT *
+  2  FROM faculty
+  3  WHERE f_last LIKE '&&NAME';
+Enter value for name: Smith
+old   3: WHERE f_last LIKE '&&NAME'
+new   3: WHERE f_last LIKE 'Smith'
+
+      F_ID F_LAST                         F_FIRST                        BIRTHDAY                                                                                                                       
+---------- ------------------------------ ------------------------------ ---------                                                                                                                      
+         2 Smith                          Neal                           12-MAY-50                                                                                                                      
+
+SQL> /
+old   3: WHERE f_last LIKE '&&NAME'
+new   3: WHERE f_last LIKE 'Smith'
+
+      F_ID F_LAST                         F_FIRST                        BIRTHDAY                                                                                                                       
+---------- ------------------------------ ------------------------------ ---------                                                                                                                      
+         2 Smith                          Neal                           12-MAY-50                                                                                                                      
+
+SQL> /
+old   3: WHERE f_last LIKE '&&NAME'
+new   3: WHERE f_last LIKE 'Smith'
+
+      F_ID F_LAST                         F_FIRST                        BIRTHDAY                                                                                                                       
+---------- ------------------------------ ------------------------------ ---------                                                                                                                      
+         2 Smith                          Neal                           12-MAY-50                                                                                                                      
+
+SQL> --c)
+SQL> 
+SQL> DEFINE Last = Smith
+SQL> 
+SQL> SELECT *
+  2  FROM faculty
+  3  WHERE f_last = '&Last';
+old   3: WHERE f_last = '&Last'
+new   3: WHERE f_last = 'Smith'
+
+      F_ID F_LAST                         F_FIRST                        BIRTHDAY                                                                                                                       
+---------- ------------------------------ ------------------------------ ---------                                                                                                                      
+         2 Smith                          Neal                           12-MAY-50                                                                                                                      
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --d)
+SQL> 
+SQL> UPDATE course SET max_enrl = CASE
+  2  WHEN course_no = 'MIS 101' THEN max_enrl * 2
+  3  WHEN course_no = 'MIS 301' THEN max_enrl * 1.5
+  4  WHEN course_no = 'MIS 441' THEN max_enrl * 3
+  5  ELSE max_enrl
+  6  END;
+
+7 rows updated.
+
+SQL> 
+SQL> SELECT * FROM course;
+
+COURSE_ COURSE_NAME                  CREDITS   MAX_ENRL                                                                                                                                                 
+------- ------------------------- ---------- ----------                                                                                                                                                 
+MIS 101 Intro. to Info. Systems            3        280                                                                                                                                                 
+MIS 301 Systems Analysis                   3         53                                                                                                                                                 
+MIS 441 Database Management                3         36                                                                                                                                                 
+CS 155  Programming in C++                 3         90                                                                                                                                                 
+MIS 451 Web-Based Systems                  3         30                                                                                                                                                 
+MIS 551 Advanced Web                       3         30                                                                                                                                                 
+MIS 651 Advanced Java                      3         30                                                                                                                                                 
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SPOOL OFF;

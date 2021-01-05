@@ -1,0 +1,758 @@
+SQL> 
+SQL> 
+SQL> 
+SQL> --Activity 2:
+SQL> 
+SQL> START "G:\Marissa\EmployeesScript.sql"
+SQL> --EmployeesScript.sql
+SQL> --Name: Marissa Gonçalves
+SQL> --Date: October 25, 2018
+SQL> 
+SQL> @@ dropEmpTables
+SQL> --dropEmpTables.sql
+SQL> --Name: Marissa Gonçalves
+SQL> --Date: October 25, 2018
+SQL> 
+SQL> 
+SQL> DROP TABLE emplevel CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE position CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE qualification CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE dept CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE employee CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE dependent CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> 
+SQL> 
+SQL> @@ createEmpTables
+SQL> --createEmpTables.sql
+SQL> --Name: Marissa Gonçalves
+SQL> --Date: October 25, 2018
+SQL> 
+SQL> 
+SQL> CREATE TABLE emplevel
+  2  	     (LevelNo	     NUMBER (1),
+  3  	     LowSalary	     NUMBER (6),
+  4  	     HighSalary      NUMBER (6),
+  5  	     CONSTRAINT emplevel_levelno_pk PRIMARY KEY (LevelNo));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE position
+  2  	     (PositionId     NUMBER (1),
+  3  	     PosDesc VARCHAR2 (10),
+  4  	     CONSTRAINT position_positionid_pk PRIMARY KEY (PositionId));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE qualification
+  2  	     (QualId NUMBER (1),
+  3  	     QualDesc	     VARCHAR2 (11),
+  4  	     CONSTRAINT qualification_qualid_pk PRIMARY KEY (QualId));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE dept
+  2  	     (DeptId NUMBER (2),
+  3  	     DeptName	     VARCHAR2 (12) NOT NULL,
+  4  	     Location	     VARCHAR2 (15),
+  5  	     EmployeeId      NUMBER (3),
+  6  	     CONSTRAINT dept_deptid_pk PRIMARY KEY (DeptId));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE employee
+  2  	     (EmployeeId    NUMBER (3),
+  3  	     Lname	     VARCHAR2 (15) CONSTRAINT employee_lname_nn NOT NULL,
+  4  	     Fname	     VARCHAR2 (15) CONSTRAINT employee_fname_nn NOT NULL,
+  5  	     PositionId      NUMBER (1),
+  6  	     Supervisor      NUMBER (3),
+  7  	     HireDate	     DATE,
+  8  	     Salary	     NUMBER (6),
+  9  	     Commission      NUMBER (5),
+ 10  	     DeptId	     NUMBER (2) NOT NULL,
+ 11  	     QualId	     NUMBER (1),
+ 12  	     CONSTRAINT employee_employeeid_pk
+ 13  		     PRIMARY KEY (EmployeeId),
+ 14  	     CONSTRAINT employee_positionid_fk FOREIGN KEY (PositionId)
+ 15  		     REFERENCES position (PositionId),
+ 16  	     CONSTRAINT employee_deptid_fk FOREIGN KEY (DeptId)
+ 17  		     REFERENCES dept (DeptId),
+ 18  	     CONSTRAINT employee_qualid_fk FOREIGN KEY (QualId)
+ 19  		     REFERENCES qualification (QualId));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE dependent
+  2  	     (EmployeeId     NUMBER (3),
+  3  	     DependentId     NUMBER (1),
+  4  	     DepDOB  DATE,
+  5  	     Relation	     VARCHAR2 (8),
+  6  	     CONSTRAINT dependent_empiddepid_pk PRIMARY KEY (EmployeeId, DependentId),
+  7  	     CONSTRAINT dependent_employeeid_fk FOREIGN KEY (EmployeeId)
+  8  		     REFERENCES employee (EmployeeId));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> @@ loadEmpTables
+SQL> --loadEmpTables.sql
+SQL> --Name: Marissa Gonçalves
+SQL> --Date: October 25, 2018
+SQL> 
+SQL> 
+SQL> INSERT INTO position VALUES (1, 'President');
+
+1 row created.
+
+SQL> INSERT INTO position VALUES (2, 'Manager');
+
+1 row created.
+
+SQL> INSERT INTO position VALUES (3, 'Programmer');
+
+1 row created.
+
+SQL> INSERT INTO position VALUES (4, 'Accountant');
+
+1 row created.
+
+SQL> INSERT INTO position VALUES (5, 'Salesman');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO emplevel VALUES (1, 1, 25000);
+
+1 row created.
+
+SQL> INSERT INTO emplevel VALUES (2, 25001, 50000);
+
+1 row created.
+
+SQL> INSERT INTO emplevel VALUES (3, 50001, 100000);
+
+1 row created.
+
+SQL> INSERT INTO emplevel VALUES (4, 100001, 500000);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO qualification VALUES (1, 'Doctorate');
+
+1 row created.
+
+SQL> INSERT INTO qualification VALUES (2, 'Masters');
+
+1 row created.
+
+SQL> INSERT INTO qualification VALUES (3, 'Bachelors');
+
+1 row created.
+
+SQL> INSERT INTO qualification VALUES (4, 'Associates');
+
+1 row created.
+
+SQL> INSERT INTO qualification VALUES (5, 'High School');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO dept VALUES (10, 'Finance', 'Charlotte', 123);
+
+1 row created.
+
+SQL> INSERT INTO dept VALUES (20, 'InfoSys', 'New York', 543);
+
+1 row created.
+
+SQL> INSERT INTO dept VALUES (30, 'Sales', 'Woodbridge', 135);
+
+1 row created.
+
+SQL> INSERT INTO dept VALUES (40, 'Marketing', 'Los Angeles', 246);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO employee VALUES (111, 'Smith', 'John', 1, NULL,
+  2  	     TO_DATE ('04/15/1960', 'mm/dd/yyyy'), 265000, 35000, 10, 1);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES (246, 'Houston', 'Larry', 2, 111,
+  2  	     TO_DATE ('05/19/1967', 'mm/dd/yyyy'), 150000, 10000, 40, 2);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES (123, 'Roberts', 'Sandi', 2, 111,
+  2  	     TO_DATE ('12/02/1991', 'mm/dd/yyyy'), 75000, NULL, 10, 2);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES (433, 'McCall', 'Alex', 3, 543,
+  2  	     TO_DATE ('05/10/1997', 'mm/dd/yyyy'), 66500, NULL, 20, 4);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES (543, 'Dev', 'Derek', 2, 111,
+  2  	     TO_DATE ('03/15/1995', 'mm/dd/yyyy'), 80000, 20000, 20, 1);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES (200, 'Shaw', 'Jinku', 5, 135,
+  2  	     TO_DATE ('01/03/00', 'mm/dd/yy'), 24500, 3000, 30, NULL);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES (135, 'Garner', 'Stanley', 2, 111,
+  2  	     TO_DATE ('02/29/1996', 'mm/dd/yyyy'), 45000, 5000, 30, 5);
+
+1 row created.
+
+SQL> INSERT INTO employee VALUES (222, 'Chen', 'Sunny', 4, 123,
+  2  	     TO_DATE ('08/15/1999', 'mm/dd/yyyy'), 35000, NULL, 10, 3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO dependent VALUES (543, 1, TO_DATE ('09/28/1958', 'mm/dd/yyyy'),
+  2  					     'Spouse');
+
+1 row created.
+
+SQL> INSERT INTO dependent VALUES (543, 2, TO_DATE ('10/14/1988', 'mm/dd/yyyy'),
+  2  					     'Son');
+
+1 row created.
+
+SQL> INSERT INTO dependent VALUES (200, 1, TO_DATE ('06/10/1976', 'mm/dd/yyyy'),
+  2  					     'Spouse');
+
+1 row created.
+
+SQL> INSERT INTO dependent VALUES (222, 1, TO_DATE ('02/04/1975', 'mm/dd/yyyy'),
+  2  					     'Spouse');
+
+1 row created.
+
+SQL> INSERT INTO dependent VALUES (222, 2, TO_DATE ('08/23/1997', 'mm/dd/yyyy'),
+  2  					     'Son');
+
+1 row created.
+
+SQL> INSERT INTO dependent VALUES (222, 3, TO_DATE ('07/10/1999', 'mm/dd/yyyy'),
+  2  					     'Daughter');
+
+1 row created.
+
+SQL> INSERT INTO dependent VALUES (111, 1, TO_DATE ('12/12/1945', 'mm/dd/yyyy'),
+  2  					     'Spouse');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> ALTER TABLE dept
+  2  ADD CONSTRAINT dept_employeeid_fk FOREIGN KEY(EmployeeId)
+  3  	     REFERENCES employee(EmployeeId);
+
+Table altered.
+
+SQL> 
+SQL> ALTER TABLE employee
+  2  ADD CONSTRAINT employee_supervisor_fk FOREIGN KEY(Supervisor)
+  3  	     REFERENCES employee(EmployeeId);
+
+Table altered.
+
+SQL> 
+SQL> 
+SQL> @@ showEmpTables
+SQL> --showEmpTables.sql
+SQL> --Name: Marissa Gonçalves
+SQL> --Date: October 25, 2018
+SQL> 
+SQL> 
+SQL> 
+SQL> DESCRIBE emplevel;
+ Name                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------- -------- ------------------------------------------------------------
+ LEVELNO                                                                                   NOT NULL NUMBER(1)
+ LOWSALARY                                                                                          NUMBER(6)
+ HIGHSALARY                                                                                         NUMBER(6)
+
+SQL> 
+SQL> 
+SQL> DESCRIBE position;
+ Name                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------- -------- ------------------------------------------------------------
+ POSITIONID                                                                                NOT NULL NUMBER(1)
+ POSDESC                                                                                            VARCHAR2(10)
+
+SQL> 
+SQL> 
+SQL> DESCRIBE qualification;
+ Name                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------- -------- ------------------------------------------------------------
+ QUALID                                                                                    NOT NULL NUMBER(1)
+ QUALDESC                                                                                           VARCHAR2(11)
+
+SQL> 
+SQL> 
+SQL> DESCRIBE dept;
+ Name                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------- -------- ------------------------------------------------------------
+ DEPTID                                                                                    NOT NULL NUMBER(2)
+ DEPTNAME                                                                                  NOT NULL VARCHAR2(12)
+ LOCATION                                                                                           VARCHAR2(15)
+ EMPLOYEEID                                                                                         NUMBER(3)
+
+SQL> 
+SQL> 
+SQL> DESCRIBE employee;
+ Name                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------- -------- ------------------------------------------------------------
+ EMPLOYEEID                                                                                NOT NULL NUMBER(3)
+ LNAME                                                                                     NOT NULL VARCHAR2(15)
+ FNAME                                                                                     NOT NULL VARCHAR2(15)
+ POSITIONID                                                                                         NUMBER(1)
+ SUPERVISOR                                                                                         NUMBER(3)
+ HIREDATE                                                                                           DATE
+ SALARY                                                                                             NUMBER(6)
+ COMMISSION                                                                                         NUMBER(5)
+ DEPTID                                                                                    NOT NULL NUMBER(2)
+ QUALID                                                                                             NUMBER(1)
+
+SQL> 
+SQL> 
+SQL> DESCRIBE dependent;
+ Name                                                                                      Null?    Type
+ ----------------------------------------------------------------------------------------- -------- ------------------------------------------------------------
+ EMPLOYEEID                                                                                NOT NULL NUMBER(3)
+ DEPENDENTID                                                                               NOT NULL NUMBER(1)
+ DEPDOB                                                                                             DATE
+ RELATION                                                                                           VARCHAR2(8)
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT *
+  2  FROM emplevel;
+
+   LEVELNO  LOWSALARY HIGHSALARY                                                                                                                                
+---------- ---------- ----------                                                                                                                                
+         1          1      25000                                                                                                                                
+         2      25001      50000                                                                                                                                
+         3      50001     100000                                                                                                                                
+         4     100001     500000                                                                                                                                
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT *
+  2  FROM position;
+
+POSITIONID POSDESC                                                                                                                                              
+---------- ----------                                                                                                                                           
+         1 President                                                                                                                                            
+         2 Manager                                                                                                                                              
+         3 Programmer                                                                                                                                           
+         4 Accountant                                                                                                                                           
+         5 Salesman                                                                                                                                             
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT *
+  2  FROM qualification;
+
+    QUALID QUALDESC                                                                                                                                             
+---------- -----------                                                                                                                                          
+         1 Doctorate                                                                                                                                            
+         2 Masters                                                                                                                                              
+         3 Bachelors                                                                                                                                            
+         4 Associates                                                                                                                                           
+         5 High School                                                                                                                                          
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT *
+  2  FROM dept;
+
+    DEPTID DEPTNAME     LOCATION        EMPLOYEEID                                                                                                              
+---------- ------------ --------------- ----------                                                                                                              
+        10 Finance      Charlotte              123                                                                                                              
+        20 InfoSys      New York               543                                                                                                              
+        30 Sales        Woodbridge             135                                                                                                              
+        40 Marketing    Los Angeles            246                                                                                                              
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT *
+  2  FROM employee;
+
+EMPLOYEEID LNAME           FNAME           POSITIONID SUPERVISOR HIREDATE      SALARY COMMISSION     DEPTID     QUALID                                          
+---------- --------------- --------------- ---------- ---------- --------- ---------- ---------- ---------- ----------                                          
+       111 Smith           John                     1            15-APR-60     265000      35000         10          1                                          
+       246 Houston         Larry                    2        111 19-MAY-67     150000      10000         40          2                                          
+       123 Roberts         Sandi                    2        111 02-DEC-91      75000                    10          2                                          
+       433 McCall          Alex                     3        543 10-MAY-97      66500                    20          4                                          
+       543 Dev             Derek                    2        111 15-MAR-95      80000      20000         20          1                                          
+       200 Shaw            Jinku                    5        135 03-JAN-00      24500       3000         30                                                     
+       135 Garner          Stanley                  2        111 29-FEB-96      45000       5000         30          5                                          
+       222 Chen            Sunny                    4        123 15-AUG-99      35000                    10          3                                          
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT *
+  2  FROM dependent;
+
+EMPLOYEEID DEPENDENTID DEPDOB    RELATION                                                                                                                       
+---------- ----------- --------- --------                                                                                                                       
+       543           1 28-SEP-58 Spouse                                                                                                                         
+       543           2 14-OCT-88 Son                                                                                                                            
+       200           1 10-JUN-76 Spouse                                                                                                                         
+       222           1 04-FEB-75 Spouse                                                                                                                         
+       222           2 23-AUG-97 Son                                                                                                                            
+       222           3 10-JUL-99 Daughter                                                                                                                       
+       111           1 12-DEC-45 Spouse                                                                                                                         
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT table_name, constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'EMPLEVEL';
+
+TABLE_NAME                     CONSTRAINT_NAME                C                                                                                                 
+------------------------------ ------------------------------ -                                                                                                 
+EMPLEVEL                       EMPLEVEL_LEVELNO_PK            P                                                                                                 
+
+SQL> 
+SQL> 
+SQL> SELECT table_name, constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'POSITION';
+
+TABLE_NAME                     CONSTRAINT_NAME                C                                                                                                 
+------------------------------ ------------------------------ -                                                                                                 
+POSITION                       POSITION_POSITIONID_PK         P                                                                                                 
+
+SQL> 
+SQL> 
+SQL> SELECT table_name, constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'QUALIFICATION';
+
+TABLE_NAME                     CONSTRAINT_NAME                C                                                                                                 
+------------------------------ ------------------------------ -                                                                                                 
+QUALIFICATION                  QUALIFICATION_QUALID_PK        P                                                                                                 
+
+SQL> 
+SQL> 
+SQL> SELECT table_name, constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'DEPT';
+
+TABLE_NAME                     CONSTRAINT_NAME                C                                                                                                 
+------------------------------ ------------------------------ -                                                                                                 
+DEPT                           SYS_C007187                    C                                                                                                 
+DEPT                           DEPT_DEPTID_PK                 P                                                                                                 
+DEPT                           DEPT_EMPLOYEEID_FK             R                                                                                                 
+
+SQL> 
+SQL> 
+SQL> SELECT table_name, constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'EMPLOYEE';
+
+TABLE_NAME                     CONSTRAINT_NAME                C                                                                                                 
+------------------------------ ------------------------------ -                                                                                                 
+EMPLOYEE                       EMPLOYEE_LNAME_NN              C                                                                                                 
+EMPLOYEE                       EMPLOYEE_FNAME_NN              C                                                                                                 
+EMPLOYEE                       SYS_C007191                    C                                                                                                 
+EMPLOYEE                       EMPLOYEE_EMPLOYEEID_PK         P                                                                                                 
+EMPLOYEE                       EMPLOYEE_POSITIONID_FK         R                                                                                                 
+EMPLOYEE                       EMPLOYEE_DEPTID_FK             R                                                                                                 
+EMPLOYEE                       EMPLOYEE_QUALID_FK             R                                                                                                 
+EMPLOYEE                       EMPLOYEE_SUPERVISOR_FK         R                                                                                                 
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> SELECT table_name, constraint_name, constraint_type
+  2  FROM user_constraints
+  3  WHERE table_name = 'DEPENDENT';
+
+TABLE_NAME                     CONSTRAINT_NAME                C                                                                                                 
+------------------------------ ------------------------------ -                                                                                                 
+DEPENDENT                      DEPENDENT_EMPIDDEPID_PK        P                                                                                                 
+DEPENDENT                      DEPENDENT_EMPLOYEEID_FK        R                                                                                                 
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Activity 3:
+SQL> 
+SQL> 
+SQL> 
+SQL> --1:
+SQL> 
+SQL> SELECT POWER(2, 10)
+  2  FROM DUAL;
+
+POWER(2,10)                                                                                                                                                     
+-----------                                                                                                                                                     
+       1024                                                                                                                                                     
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --2:
+SQL> 
+SQL> SELECT Lname, Fname, NVL(Commission, 0)
+  2  FROM EMPLOYEE
+  3  ORDER BY NVL(Commission, 0) DESC;
+
+LNAME           FNAME           NVL(COMMISSION,0)                                                                                                               
+--------------- --------------- -----------------                                                                                                               
+Smith           John                        35000                                                                                                               
+Dev             Derek                       20000                                                                                                               
+Houston         Larry                       10000                                                                                                               
+Garner          Stanley                      5000                                                                                                               
+Shaw            Jinku                        3000                                                                                                               
+Chen            Sunny                           0                                                                                                               
+Roberts         Sandi                           0                                                                                                               
+McCall          Alex                            0                                                                                                               
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --3:
+SQL> 
+SQL> COLUMN SalaryFormat FORMAT $999,999
+SQL> SELECT Lname||', '||Fname, Salary AS SalaryFormat
+  2  FROM EMPLOYEE
+  3  ORDER BY Salary DESC;
+
+LNAME||','||FNAME                SALARYFORMAT                                                                                                                   
+-------------------------------- ------------                                                                                                                   
+Smith, John                          $265,000                                                                                                                   
+Houston, Larry                       $150,000                                                                                                                   
+Dev, Derek                            $80,000                                                                                                                   
+Roberts, Sandi                        $75,000                                                                                                                   
+McCall, Alex                          $66,500                                                                                                                   
+Garner, Stanley                       $45,000                                                                                                                   
+Chen, Sunny                           $35,000                                                                                                                   
+Shaw, Jinku                           $24,500                                                                                                                   
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --4:
+SQL> 
+SQL> SELECT Lname, Fname,
+  2  CASE  WHEN commission IS NULL THEN salary
+  3        ELSE salary+commission
+  4  END "Salary/Commission"
+  5  FROM EMPLOYEE;
+
+LNAME           FNAME           Salary/Commission                                                                                                               
+--------------- --------------- -----------------                                                                                                               
+Smith           John                       300000                                                                                                               
+Houston         Larry                      160000                                                                                                               
+Roberts         Sandi                       75000                                                                                                               
+McCall          Alex                        66500                                                                                                               
+Dev             Derek                      100000                                                                                                               
+Shaw            Jinku                       27500                                                                                                               
+Garner          Stanley                     50000                                                                                                               
+Chen            Sunny                       35000                                                                                                               
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --5:
+SQL> 
+SQL> SELECT Lname, Fname, TO_CHAR(HireDate, 'YYYY')
+  2  FROM EMPLOYEE
+  3  ORDER BY TO_CHAR(HireDate, 'YYYY') ASC;
+
+LNAME           FNAME           TO_C                                                                                                                            
+--------------- --------------- ----                                                                                                                            
+Smith           John            1960                                                                                                                            
+Houston         Larry           1967                                                                                                                            
+Roberts         Sandi           1991                                                                                                                            
+Dev             Derek           1995                                                                                                                            
+Garner          Stanley         1996                                                                                                                            
+McCall          Alex            1997                                                                                                                            
+Chen            Sunny           1999                                                                                                                            
+Shaw            Jinku           2000                                                                                                                            
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --6:
+SQL> 
+SQL> --a)
+SQL> 
+SQL> SELECT AVG(Commission)
+  2  FROM EMPLOYEE
+  3  WHERE Commission IS NOT NULL;
+
+AVG(COMMISSION)                                                                                                                                                 
+---------------                                                                                                                                                 
+          14600                                                                                                                                                 
+
+SQL> 
+SQL> 
+SQL> --b)
+SQL> 
+SQL> SELECT AVG(NVL(Commission, 0))
+  2  FROM EMPLOYEE;
+
+AVG(NVL(COMMISSION,0))                                                                                                                                          
+----------------------                                                                                                                                          
+                  9125                                                                                                                                          
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --7:
+SQL> 
+SQL> COLUMN Years FORMAT 999
+SQL> SELECT EmployeeId, Lname, Fname, FLOOR((SYSDATE - HireDate)/ 365) AS Years
+  2  FROM EMPLOYEE;
+
+EMPLOYEEID LNAME           FNAME           YEARS                                                                                                                
+---------- --------------- --------------- -----                                                                                                                
+       111 Smith           John               58                                                                                                                
+       246 Houston         Larry              51                                                                                                                
+       123 Roberts         Sandi              26                                                                                                                
+       433 McCall          Alex               21                                                                                                                
+       543 Dev             Derek              23                                                                                                                
+       200 Shaw            Jinku              18                                                                                                                
+       135 Garner          Stanley            22                                                                                                                
+       222 Chen            Sunny              19                                                                                                                
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --8:
+SQL> 
+SQL> SELECT EmployeeId, COUNT(EmployeeId)
+  2  FROM DEPENDENT
+  3  GROUP BY EmployeeId
+  4  HAVING COUNT(EmployeeId) >= 2;
+
+EMPLOYEEID COUNT(EMPLOYEEID)                                                                                                                                    
+---------- -----------------                                                                                                                                    
+       222                 3                                                                                                                                    
+       543                 2                                                                                                                                    
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --9:
+SQL> 
+SQL> SELECT DeptId, AVG(Salary)
+  2  FROM EMPLOYEE
+  3  GROUP BY DeptId
+  4  HAVING AVG(Salary) >= 75000;
+
+    DEPTID AVG(SALARY)                                                                                                                                          
+---------- -----------                                                                                                                                          
+        40      150000                                                                                                                                          
+        10      125000                                                                                                                                          
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --10:
+SQL> 
+SQL> SELECT Lname, Fname,
+  2  CASE  WHEN salary > 100000 THEN 'HIGH'
+  3        WHEN salary >= 50000 AND salary <= 100000 THEN 'MEDIUM'
+  4        WHEN salary < 50000 THEN 'LOW'
+  5  END "Salary Level"
+  6  FROM EMPLOYEE;
+
+LNAME           FNAME           Salary                                                                                                                          
+--------------- --------------- ------                                                                                                                          
+Smith           John            HIGH                                                                                                                            
+Houston         Larry           HIGH                                                                                                                            
+Roberts         Sandi           MEDIUM                                                                                                                          
+McCall          Alex            MEDIUM                                                                                                                          
+Dev             Derek           MEDIUM                                                                                                                          
+Shaw            Jinku           LOW                                                                                                                             
+Garner          Stanley         LOW                                                                                                                             
+Chen            Sunny           LOW                                                                                                                             
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SPOOL OFF;

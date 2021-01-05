@@ -1,0 +1,1401 @@
+SQL> 
+SQL> START "D:\Marissa\EditionDB_Script.sql"
+SQL> -- EditionDB_Script.sql
+SQL> 
+SQL> 
+SQL> DROP TABLE publisher CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE book CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE chapter CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> --DROP TABLE author CASCADE CONSTRAINTS;
+SQL> 
+SQL> CREATE TABLE publisher
+  2  (p_id NUMBER(5),
+  3  p_name VARCHAR2(30),
+  4  p_address VARCHAR2(40),
+  5  CONSTRAINT publisher_p_id_pk PRIMARY KEY (p_id));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE book
+  2  (b_id NUMBER(5),
+  3  b_author VARCHAR2(30),
+  4  b_title VARCHAR2(30),
+  5  b_isbn VARCHAR2(13),
+  6  b_type VARCHAR2(2),  --- Only three values, To be considered BG (beginner), MD (Median), or EX (for Expert)
+  7  b_price NUMBER(6,2),
+  8  p_id NUMBER(5),
+  9  CONSTRAINT book_b_id_pk PRIMARY KEY (b_id),
+ 10  CONSTRAINT book_b_id_fk FOREIGN KEY (p_id) REFERENCES publisher(p_id));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE chapter
+  2  (b_id NUMBER(5),
+  3  c_no NUMBER(5),
+  4  c_title VARCHAR2(30),
+  5  c_type VARCHAR2(2), --- Only two values, To be sold separatly or not: TS or NS
+  6  c_price NUMBER(6,2),
+  7  CONSTRAINT chapter_pk PRIMARY KEY (b_id, c_no),
+  8  CONSTRAINT chapter_bid_fk FOREIGN KEY (b_id) REFERENCES book(b_id));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> --- inserting records into publisher
+SQL> INSERT INTO publisher VALUES
+  2  (1, 'Course Technology', '13 Ontario Street Canada');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO publisher VALUES
+  2  (2, 'Campus Press', '21 Durocher Avenue Quebec Canada');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO publisher VALUES
+  2  (3, 'Pearson Education', '45 New York USA');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO publisher VALUES
+  2  (4, 'Harvard Publishing', 'New Hamphshir, Boston');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO publisher VALUES
+  2  (5, 'MIT Publishing', '32 Square Paule Boston, USA');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --- inserting records into book
+SQL> INSERT INTO book VALUES
+  2  (1, 'Stev Jeff', 'Java Programming','1234987','BG', 42.4, 4);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO book VALUES
+  2  (2, 'Amine Khan', 'Oracle Database','345675','EX', 252.4, 1);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO book VALUES
+  2  (3, 'Eduard Becker', 'History of Art','098766','EX', 202.3, 5);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO book  VALUES
+  2  (4, 'James Peter', 'PHP Programming','765432','MD', 66.7, 2);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO book  VALUES
+  2  (5, 'Paul Tremblay', 'Economy and Wealth','1209845','BG', 43.3, 3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO book  VALUES
+  2  (6, 'Paul Henry', 'Business principles','654321','BG', 12.6, 4);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --- inserting records into chapter
+SQL> INSERT INTO chapter VALUES
+  2  (1, 1, 'Java 1', 'TS', 12);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (1, 2, 'Java 2', 'NS', 0);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (2, 1, 'Oracle 1', 'TS', 22);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (2, 2, 'Oracle 2', 'TS', 32);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (2, 3, 'Oracle 3', 'TS', 42);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (3, 1, 'History 1', 'NS', 0);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (3, 2, 'History 2', 'NS', 0);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (3, 3, 'History 3', 'TS', 65);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (4, 1, 'PHP 1', 'TS', 12);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (4, 2, 'PHP 2', 'TS', 65);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (5, 1, 'Economy 1', 'TS', 52);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (5, 2, 'Economy 2', 'TS', 76);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO chapter VALUES
+  2  (6, 1, 'Business 1', 'NS', 0);
+
+1 row created.
+
+SQL> 
+SQL> ALTER TABLE book
+  2  ADD PublishDate DATE;
+
+Table altered.
+
+SQL> 
+SQL> UPDATE book SET PublishDate=TO_DATE('13-07-1997', 'dd-mm-yyyy') where b_id=1;
+
+1 row updated.
+
+SQL> UPDATE book SET PublishDate=TO_DATE('06-01-2005', 'dd-mm-yyyy') where b_id=2;
+
+1 row updated.
+
+SQL> UPDATE book SET PublishDate=TO_DATE('31-05-2010', 'dd-mm-yyyy') where b_id=3;
+
+1 row updated.
+
+SQL> UPDATE book SET PublishDate=TO_DATE('16-10-2011', 'dd-mm-yyyy') where b_id=4;
+
+1 row updated.
+
+SQL> UPDATE book SET PublishDate=TO_DATE('17-08-2009', 'dd-mm-yyyy') where b_id=5;
+
+1 row updated.
+
+SQL> UPDATE book SET PublishDate=TO_DATE('24-09-2007', 'dd-mm-yyyy') where b_id=6;
+
+1 row updated.
+
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> START "D:\Marissa\EducationDB_Script.sql"
+SQL> -- EducationDB_Script.sql
+SQL> 
+SQL> 
+SQL> DROP TABLE faculty CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE student CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE course CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE enrollment CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE levelclass CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE Department CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE CategoryStudent CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> 
+SQL> 
+SQL> CREATE TABLE Department
+  2  (DeptId NUMBER (2),
+  3  DeptName	     VARCHAR2 (20) NOT NULL,
+  4  Location	     VARCHAR2 (15),
+  5  CONSTRAINT depart_deptid_pk PRIMARY KEY (DeptId));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE faculty
+  2  (f_id NUMBER(5),
+  3  f_last VARCHAR2(30),
+  4  f_first VARCHAR2(30),
+  5  CONSTRAINT faculty_f_id_pk PRIMARY KEY (f_id));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE CategoryStudent
+  2  (Cat_Stud_ID NUMBER(2),
+  3  Cat_Start_Date DATE,
+  4  Cat_End_Date DATE,
+  5  Cat_Stud_DESC VARCHAR2(20),
+  6  CONSTRAINT CategoryStudent_Cat_Stud_ID_pk PRIMARY KEY (Cat_Stud_ID));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE student
+  2  (s_id NUMBER(5),
+  3  s_last VARCHAR2(30),
+  4  s_first VARCHAR2(30),
+  5  s_class VARCHAR2(2),
+  6  f_id NUMBER(5),
+  7  CONSTRAINT student_s_id_pk PRIMARY KEY (s_id),
+  8  CONSTRAINT student_s_id_fk FOREIGN KEY (f_id) REFERENCES faculty(f_id));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE COURSE
+  2  (course_no VARCHAR2(7),
+  3  course_name VARCHAR2(25),
+  4  credits NUMBER(2),
+  5  max_enrl NUMBER(4) CONSTRAINT course_maxenrl_nn NOT NULL,
+  6  CONSTRAINT course_course_id_pk PRIMARY KEY(course_no));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE LEVELCLASS
+  2  (lc_type NUMBER(2),
+  3  lc_desc VARCHAR2(20),
+  4  lc_min NUMBER(3),
+  5  lc_max NUMBER(3),
+  6  CONSTRAINT levelclass_lc_type_pk PRIMARY KEY(lc_type));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE ENROLLMENT
+  2  (s_id NUMBER(5),
+  3  course_no VARCHAR2(7),
+  4  grade CHAR(2),
+  5  CONSTRAINT enrollment_pk PRIMARY KEY (s_id, course_no),
+  6  CONSTRAINT enrollment_sid_fk FOREIGN KEY (s_id) REFERENCES student(s_id),
+  7  CONSTRAINT enrollment_csecid_fk FOREIGN KEY (course_no) REFERENCES course (course_no));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> --- inserting records into Department
+SQL> INSERT INTO Department VALUES
+  2  (10, 'Computer Science', 'Campus CS');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Department VALUES
+  2  (20, 'Telecommunication', 'Campus TEL');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Department VALUES
+  2  (30, 'Accounting', 'Campus AC');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Department VALUES
+  2  (40, 'Math and Science', 'Campus MS');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Department VALUES
+  2  (50, 'Liberal Arts', 'Campus LA');
+
+1 row created.
+
+SQL> 
+SQL> --- inserting records into Faculty
+SQL> INSERT INTO Faculty VALUES
+  2  (1, 'Robertson', 'Myra');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (2, 'Smith', 'Neal');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (3, 'Arlec', 'Lisa');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (4, 'Fillipo', 'Paul');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (5, 'Denver', 'Paul');
+
+1 row created.
+
+SQL> 
+SQL> --- inserting records into CategoryStudent
+SQL> INSERT INTO CATEGORYSTUDENT VALUES
+  2  (1, TO_DATE('01-01-1960', 'dd-mm-yyyy'), TO_DATE('31-12-1969', 'dd-mm-yyyy'),'Generation X1');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO CATEGORYSTUDENT VALUES
+  2  (2, TO_DATE('01-01-1970', 'dd-mm-yyyy'), TO_DATE('31-12-1979', 'dd-mm-yyyy'),'Generation X');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO CATEGORYSTUDENT VALUES
+  2  (3, TO_DATE('01-01-1980', 'dd-mm-yyyy'), TO_DATE('31-12-1989', 'dd-mm-yyyy'),'Generation Y');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> --- inserting records into Student
+SQL> INSERT INTO STUDENT VALUES
+  2  (1, 'Graham', 'Bill','JR',4);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (2, 'Sanchez', 'Jim','EX',3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (3, 'White', 'Peter','EX',3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT  VALUES
+  2  (4, 'Phelp', 'David','JR',1);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT  VALUES
+  2  (5, 'Lewis', 'Sheila','SR',2);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT  VALUES
+  2  (6, 'James', 'Thomas','JR',1);
+
+1 row created.
+
+SQL> 
+SQL> --- inserting records into COURSE
+SQL> INSERT INTO course VALUES
+  2  ('MIS 101', 'Intro. to Info. Systems', 3, 140);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 301', 'Systems Analysis', 3, 35);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 441', 'Database Management', 3, 12);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('CS 155', 'Programming in C++', 3, 90);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 451', 'Web-Based Systems', 3, 30);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 551', 'Advanced Web', 3, 30);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 651', 'Advanced Java', 3, 30);
+
+1 row created.
+
+SQL> 
+SQL> --- inserting records into ENROLLMENT
+SQL> INSERT INTO enrollment VALUES
+  2  (1, 'MIS 101', 'A+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (5,'MIS 301', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (2,'MIS 441', 'A-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (3,'CS 155', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (5,'MIS 451', 'A+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (4,'MIS 551', 'B+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (6,'MIS 651', 'C+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (3,'MIS 301', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (4,'MIS 441', 'A-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (4,'CS 155', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (2,'MIS 451', 'A+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (6,'MIS 551', 'B+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (3,'MIS 651', 'C+');
+
+1 row created.
+
+SQL> 
+SQL> -- inserting records into LEVELCLASS
+SQL> INSERT INTO levelclass VALUES
+  2  (1, 'Small Class', 1, 12);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO levelclass VALUES
+  2  (2, 'Medium Class', 13, 30);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO levelclass VALUES
+  2  (3, 'Large Class', 31, 90);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO levelclass VALUES
+  2  (4, 'Extra Large Class', 91, 140);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> ALTER TABLE faculty
+  2  ADD Birthday DATE;
+
+Table altered.
+
+SQL> 
+SQL> ALTER TABLE faculty
+  2  ADD soc_ins CHAR(11);
+
+Table altered.
+
+SQL> 
+SQL> UPDATE faculty SET birthday=TO_DATE('30-07-1940', 'dd-mm-yyyy'), soc_ins= '123-456-789' where f_id=1;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=TO_DATE('12-05-1950', 'dd-mm-yyyy'), soc_ins= '321-456-789' where f_id=2;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=TO_DATE('24-03-1941', 'dd-mm-yyyy'), soc_ins= '123-554-789' where f_id=3;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=TO_DATE('11-02-1971', 'dd-mm-yyyy'), soc_ins= '123-456-987' where f_id=4;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=TO_DATE('09-10-1980', 'dd-mm-yyyy'), soc_ins= '123-654-987' where f_id=5;
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> ALTER TABLE student
+  2  ADD Birthday DATE;
+
+Table altered.
+
+SQL> 
+SQL> ALTER TABLE student
+  2  ADD soc_ins CHAR(11);
+
+Table altered.
+
+SQL> 
+SQL> UPDATE student SET birthday=TO_DATE('30-07-1980', 'dd-mm-yyyy'), soc_ins= '456-123-789' where s_id=1;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=TO_DATE('12-05-1981', 'dd-mm-yyyy'), soc_ins= '654-123-789' where s_id=2;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=TO_DATE('24-03-1987', 'dd-mm-yyyy'), soc_ins= '456-321-789' where s_id=3;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=TO_DATE('11-02-1988', 'dd-mm-yyyy'), soc_ins= '456-123-987' where s_id=4;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=TO_DATE('09-10-1970', 'dd-mm-yyyy'), soc_ins= '456-321-987' where s_id=5;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=TO_DATE('07-12-1960', 'dd-mm-yyyy'), soc_ins= '654-321-987' where s_id=6;
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> ALTER TABLE course
+  2  ADD prereq VARCHAR2(7);
+
+Table altered.
+
+SQL> 
+SQL> UPDATE course SET prereq='MIS 651' where course_no='MIS 301';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 301' where course_no='MIS 441';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 101' where course_no='CS 155';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 101' where course_no='MIS 451';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 451' where course_no='MIS 551';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 101' where course_no='MIS 651';
+
+1 row updated.
+
+SQL> 
+SQL> ALTER TABLE faculty
+  2  ADD DeptId      NUMBER (2) ;
+
+Table altered.
+
+SQL> 
+SQL> ALTER TABLE faculty ADD CONSTRAINTS faculty_DeptId_pk FOREIGN KEY (DeptId) REFERENCES Department(DeptId);
+
+Table altered.
+
+SQL> 
+SQL> 
+SQL> UPDATE faculty SET DeptId=10 where f_id=1;
+
+1 row updated.
+
+SQL> UPDATE faculty SET DeptId=20 where f_id=2;
+
+1 row updated.
+
+SQL> UPDATE faculty SET DeptId=30 where f_id=3;
+
+1 row updated.
+
+SQL> UPDATE faculty SET DeptId=10 where f_id=4;
+
+1 row updated.
+
+SQL> UPDATE faculty SET DeptId=40 where f_id=5;
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --I: Application Using Education Database System
+SQL> 
+SQL> 
+SQL> --a)
+SQL> 
+SQL> COLUMN S_LAST FORMAT A10;
+SQL> COLUMN S_FIRST FORMAT A10;
+SQL> 
+SQL> SELECT S_ID, S_LAST, S_FIRST, F_ID
+  2  FROM STUDENT
+  3  WHERE F_ID IN (SELECT F_ID
+  4                     FROM FACULTY
+  5     WHERE F_LAST = 'Robertson');
+
+      S_ID S_LAST     S_FIRST          F_ID                                                                                                                                                             
+---------- ---------- ---------- ----------                                                                                                                                                             
+         4 Phelp      David               1                                                                                                                                                             
+         6 James      Thomas              1                                                                                                                                                             
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --b)
+SQL> 
+SQL> SELECT S_ID, S_LAST, S_FIRST, BIRTHDAY
+  2  FROM STUDENT
+  3  WHERE BIRTHDAY < (SELECT BIRTHDAY
+  4                     FROM STUDENT
+  5     WHERE S_LAST = 'White');
+
+      S_ID S_LAST     S_FIRST    BIRTHDAY                                                                                                                                                               
+---------- ---------- ---------- ---------                                                                                                                                                              
+         1 Graham     Bill       30-JUL-80                                                                                                                                                              
+         2 Sanchez    Jim        12-MAY-81                                                                                                                                                              
+         5 Lewis      Sheila     09-OCT-70                                                                                                                                                              
+         6 James      Thomas     07-DEC-60                                                                                                                                                              
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --c)
+SQL> 
+SQL> SELECT S_ID, S_LAST, S_FIRST, F_ID
+  2  FROM STUDENT
+  3  WHERE F_ID IN (SELECT F_ID
+  4                     FROM FACULTY
+  5     WHERE F_LAST <> 'Robertson');
+
+      S_ID S_LAST     S_FIRST          F_ID                                                                                                                                                             
+---------- ---------- ---------- ----------                                                                                                                                                             
+         1 Graham     Bill                4                                                                                                                                                             
+         2 Sanchez    Jim                 3                                                                                                                                                             
+         3 White      Peter               3                                                                                                                                                             
+         5 Lewis      Sheila              2                                                                                                                                                             
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --d)
+SQL> 
+SQL> SELECT S.S_ID, S.S_LAST, S.S_FIRST, S.F_ID, F.F_LAST
+  2  FROM STUDENT S, FACULTY F
+  3  WHERE S.F_ID = F.F_ID AND F.F_ID IN (SELECT F_ID
+  4                                       FROM FACULTY
+  5                       WHERE F_LAST <> 'Robertson');
+
+      S_ID S_LAST     S_FIRST          F_ID F_LAST                                                                                                                                                      
+---------- ---------- ---------- ---------- ----------                                                                                                                                                  
+         1 Graham     Bill                4 Fillipo                                                                                                                                                     
+         2 Sanchez    Jim                 3 Arlec                                                                                                                                                       
+         3 White      Peter               3 Arlec                                                                                                                                                       
+         5 Lewis      Sheila              2 Smith                                                                                                                                                       
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --e)
+SQL> 
+SQL> SELECT S_ID, COURSE_NO, GRADE
+  2  FROM ENROLLMENT
+  3  WHERE S_ID = (SELECT S_ID
+  4                FROM STUDENT
+  5    WHERE F_ID = (SELECT F_ID
+  6                  FROM FACULTY
+  7  WHERE F_LAST = 'Fillipo'));
+
+      S_ID COURSE_ GR                                                                                                                                                                                   
+---------- ------- --                                                                                                                                                                                   
+         1 MIS 101 A+                                                                                                                                                                                   
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --f)
+SQL> 
+SQL> COLUMN F_LAST FORMAT A10;
+SQL> COLUMN F_FIRST FORMAT A10;
+SQL> 
+SQL> CREATE TABLE TEMP
+  2  AS
+  3  SELECT F.F_ID, F.F_LAST, F.F_FIRST, F.BIRTHDAY, F.DEPTID, D.DEPTNAME, D.LOCATION
+  4  FROM FACULTY F, DEPARTMENT D
+  5  WHERE F.BIRTHDAY > TO_DATE('01-01-1950', 'DD-MM-YYYY') AND F.BIRTHDAY < TO_DATE('01-01-1972', 'DD-MM-YYYY')
+  6  AND F.DEPTID = D.DEPTID AND D.DEPTID IN (SELECT DEPTID
+  7                                           FROM DEPARTMENT
+  8                           WHERE DEPTNAME = 'Telecommunication' OR DEPTNAME = 'Computer Science');
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT * FROM TEMP;
+
+      F_ID F_LAST     F_FIRST    BIRTHDAY      DEPTID DEPTNAME             LOCATION                                                                                                                     
+---------- ---------- ---------- --------- ---------- -------------------- ---------------                                                                                                              
+         4 Fillipo    Paul       11-FEB-71         10 Computer Science     Campus CS                                                                                                                    
+         2 Smith      Neal       12-MAY-50         20 Telecommunication    Campus TEL                                                                                                                   
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --g)
+SQL> 
+SQL> INSERT INTO TEMP (F_ID, F_LAST, F_FIRST, BIRTHDAY, DEPTID, DEPTNAME, LOCATION)
+  2  SELECT F.F_ID, F.F_LAST, F.F_FIRST, F.BIRTHDAY, F.DEPTID, D.DEPTNAME, D.LOCATION
+  3  FROM FACULTY F, DEPARTMENT D
+  4  WHERE F.DEPTID = D.DEPTID AND F.SOC_INS LIKE '___-___-789';
+
+3 rows created.
+
+SQL> 
+SQL> 
+SQL> SELECT * FROM TEMP;
+
+      F_ID F_LAST     F_FIRST    BIRTHDAY      DEPTID DEPTNAME             LOCATION                                                                                                                     
+---------- ---------- ---------- --------- ---------- -------------------- ---------------                                                                                                              
+         4 Fillipo    Paul       11-FEB-71         10 Computer Science     Campus CS                                                                                                                    
+         2 Smith      Neal       12-MAY-50         20 Telecommunication    Campus TEL                                                                                                                   
+         1 Robertson  Myra       30-JUL-40         10 Computer Science     Campus CS                                                                                                                    
+         2 Smith      Neal       12-MAY-50         20 Telecommunication    Campus TEL                                                                                                                   
+         3 Arlec      Lisa       24-MAR-41         30 Accounting           Campus AC                                                                                                                    
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --h)
+SQL> 
+SQL> UPDATE STUDENT
+  2  SET S_CLASS = 'JR'
+  3  WHERE F_ID = (SELECT F_ID
+  4                FROM FACULTY
+  5                WHERE F_LAST = 'Smith');
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> SELECT * FROM STUDENT;
+
+      S_ID S_LAST     S_FIRST    S_       F_ID BIRTHDAY  SOC_INS                                                                                                                                        
+---------- ---------- ---------- -- ---------- --------- -----------                                                                                                                                    
+         1 Graham     Bill       JR          4 30-JUL-80 456-123-789                                                                                                                                    
+         2 Sanchez    Jim        EX          3 12-MAY-81 654-123-789                                                                                                                                    
+         3 White      Peter      EX          3 24-MAR-87 456-321-789                                                                                                                                    
+         4 Phelp      David      JR          1 11-FEB-88 456-123-987                                                                                                                                    
+         5 Lewis      Sheila     JR          2 09-OCT-70 456-321-987                                                                                                                                    
+         6 James      Thomas     JR          1 07-DEC-60 654-321-987                                                                                                                                    
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --i)
+SQL> 
+SQL> SELECT S_ID, S_LAST, S_FIRST, S_CLASS, F_ID, BIRTHDAY, SOC_INS
+  2  FROM STUDENT
+  3  WHERE F_ID IN (SELECT F_ID
+  4                 FROM FACULTY
+  5     WHERE DEPTID = (SELECT DEPTID
+  6     FROM DEPARTMENT
+  7     WHERE DEPTNAME = 'Accounting'));
+
+      S_ID S_LAST     S_FIRST    S_       F_ID BIRTHDAY  SOC_INS                                                                                                                                        
+---------- ---------- ---------- -- ---------- --------- -----------                                                                                                                                    
+         2 Sanchez    Jim        EX          3 12-MAY-81 654-123-789                                                                                                                                    
+         3 White      Peter      EX          3 24-MAR-87 456-321-789                                                                                                                                    
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --j)
+SQL> 
+SQL> SELECT S_ID, COURSE_NO, GRADE
+  2  FROM ENROLLMENT
+  3  WHERE S_ID IN (SELECT S_ID
+  4                FROM STUDENT
+  5    WHERE F_ID IN (SELECT F_ID
+  6                  FROM FACULTY
+  7  WHERE F_LAST = 'Arlec'));
+
+      S_ID COURSE_ GR                                                                                                                                                                                   
+---------- ------- --                                                                                                                                                                                   
+         2 MIS 441 A-                                                                                                                                                                                   
+         3 CS 155  B-                                                                                                                                                                                   
+         3 MIS 301 B-                                                                                                                                                                                   
+         2 MIS 451 A+                                                                                                                                                                                   
+         3 MIS 651 C+                                                                                                                                                                                   
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --k)
+SQL> 
+SQL> SELECT S_ID, S_LAST, S_FIRST, F_ID
+  2  FROM STUDENT
+  3  WHERE F_ID IN (SELECT F_ID
+  4                 FROM FACULTY
+  5     WHERE F_LAST <> 'Robertson' AND F_LAST <> 'Arlec');
+
+      S_ID S_LAST     S_FIRST          F_ID                                                                                                                                                             
+---------- ---------- ---------- ----------                                                                                                                                                             
+         1 Graham     Bill                4                                                                                                                                                             
+         5 Lewis      Sheila              2                                                                                                                                                             
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --l)
+SQL> 
+SQL> SELECT S_ID, COURSE_NO, GRADE
+  2  FROM ENROLLMENT
+  3  WHERE S_ID IN (SELECT S_ID
+  4                 FROM STUDENT
+  5     WHERE F_ID IN (SELECT F_ID
+  6                    FROM FACULTY
+  7                    WHERE F_LAST <> 'Smith'));
+
+      S_ID COURSE_ GR                                                                                                                                                                                   
+---------- ------- --                                                                                                                                                                                   
+         1 MIS 101 A+                                                                                                                                                                                   
+         2 MIS 441 A-                                                                                                                                                                                   
+         3 CS 155  B-                                                                                                                                                                                   
+         4 MIS 551 B+                                                                                                                                                                                   
+         6 MIS 651 C+                                                                                                                                                                                   
+         3 MIS 301 B-                                                                                                                                                                                   
+         4 MIS 441 A-                                                                                                                                                                                   
+         4 CS 155  B-                                                                                                                                                                                   
+         2 MIS 451 A+                                                                                                                                                                                   
+         6 MIS 551 B+                                                                                                                                                                                   
+         3 MIS 651 C+                                                                                                                                                                                   
+
+11 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --II: Application Using Edition Database System
+SQL> 
+SQL> 
+SQL> --a)
+SQL> 
+SQL> SELECT B_TITLE, B_PRICE
+  2  FROM BOOK
+  3  UNION
+  4  SELECT C_TITLE, C_PRICE
+  5  FROM CHAPTER;
+
+B_TITLE                           B_PRICE                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Business 1                              0                                                                                                                                                               
+Business principles                  12.6                                                                                                                                                               
+Economy 1                              52                                                                                                                                                               
+Economy 2                              76                                                                                                                                                               
+Economy and Wealth                   43.3                                                                                                                                                               
+History 1                               0                                                                                                                                                               
+History 2                               0                                                                                                                                                               
+History 3                              65                                                                                                                                                               
+History of Art                      202.3                                                                                                                                                               
+Java 1                                 12                                                                                                                                                               
+Java 2                                  0                                                                                                                                                               
+Java Programming                     42.4                                                                                                                                                               
+Oracle 1                               22                                                                                                                                                               
+Oracle 2                               32                                                                                                                                                               
+Oracle 3                               42                                                                                                                                                               
+Oracle Database                     252.4                                                                                                                                                               
+PHP 1                                  12                                                                                                                                                               
+PHP 2                                  65                                                                                                                                                               
+PHP Programming                      66.7                                                                                                                                                               
+
+19 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --b)
+SQL> 
+SQL> SELECT B_ID, B_AUTHOR, B_TITLE, B_PRICE, B_TYPE
+  2  FROM BOOK
+  3  WHERE B_ID IN (SELECT B_ID
+  4                 FROM BOOK
+  5     GROUP BY B_ID
+  6     HAVING AVG(B_PRICE) < (SELECT AVG(B_PRICE)
+  7        FROM BOOK));
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE B_                                                                                                                  
+---------- ------------------------------ ------------------------------ ---------- --                                                                                                                  
+         1 Stev Jeff                      Java Programming                     42.4 BG                                                                                                                  
+         4 James Peter                    PHP Programming                      66.7 MD                                                                                                                  
+         5 Paul Tremblay                  Economy and Wealth                   43.3 BG                                                                                                                  
+         6 Paul Henry                     Business principles                  12.6 BG                                                                                                                  
+
+SQL> 
+SQL> 
+SQL> SELECT AVG(B_PRICE)
+  2  FROM BOOK;
+
+AVG(B_PRICE)                                                                                                                                                                                            
+------------                                                                                                                                                                                            
+  103.283333                                                                                                                                                                                            
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --c)
+SQL> 
+SQL> SELECT B_ID, B_AUTHOR, B_TITLE, B_PRICE, B_TYPE, P_ID
+  2  FROM BOOK
+  3  WHERE P_ID IN (SELECT P_ID
+  4                 FROM PUBLISHER
+  5     WHERE P_NAME = 'Harvard Publishing' OR P_NAME = 'Course Technology');
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE B_       P_ID                                                                                                       
+---------- ------------------------------ ------------------------------ ---------- -- ----------                                                                                                       
+         1 Stev Jeff                      Java Programming                     42.4 BG          4                                                                                                       
+         2 Amine Khan                     Oracle Database                     252.4 EX          1                                                                                                       
+         6 Paul Henry                     Business principles                  12.6 BG          4                                                                                                       
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --d)
+SQL> 
+SQL> SELECT ROWNUM, B_ID, B_AUTHOR, B_TITLE, B_PRICE, B_TYPE
+  2  FROM (SELECT B_ID, B_AUTHOR, B_TITLE, B_PRICE, B_TYPE
+  3        FROM BOOK
+  4        ORDER BY B_PRICE DESC)
+  5  WHERE ROWNUM <= 3;
+
+    ROWNUM       B_ID B_AUTHOR                       B_TITLE                           B_PRICE B_                                                                                                       
+---------- ---------- ------------------------------ ------------------------------ ---------- --                                                                                                       
+         1          2 Amine Khan                     Oracle Database                     252.4 EX                                                                                                       
+         2          3 Eduard Becker                  History of Art                      202.3 EX                                                                                                       
+         3          4 James Peter                    PHP Programming                      66.7 MD                                                                                                       
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --e)
+SQL> 
+SQL> SELECT ROWNUM, B_ID, B_AUTHOR, B_TITLE, B_PRICE, B_TYPE
+  2  FROM (SELECT B_ID, B_AUTHOR, B_TITLE, B_PRICE, B_TYPE
+  3        FROM BOOK
+  4        ORDER BY B_PRICE)
+  5  WHERE ROWNUM <= 3;
+
+    ROWNUM       B_ID B_AUTHOR                       B_TITLE                           B_PRICE B_                                                                                                       
+---------- ---------- ------------------------------ ------------------------------ ---------- --                                                                                                       
+         1          6 Paul Henry                     Business principles                  12.6 BG                                                                                                       
+         2          1 Stev Jeff                      Java Programming                     42.4 BG                                                                                                       
+         3          5 Paul Tremblay                  Economy and Wealth                   43.3 BG                                                                                                       
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --f)
+SQL> 
+SQL> SELECT ROWNUM, S_ID, COURSE_NO, GRADE, S_LAST, S_FIRST
+  2  FROM(SELECT E.S_ID, E.COURSE_NO, E.GRADE, S.S_LAST, S.S_FIRST
+  3             FROM ENROLLMENT E, STUDENT S
+  4     WHERE E.S_ID = S.S_ID
+  5             ORDER BY E.GRADE)
+  6  WHERE ROWNUM <= 5;
+
+    ROWNUM       S_ID COURSE_ GR S_LAST     S_FIRST                                                                                                                                                     
+---------- ---------- ------- -- ---------- ----------                                                                                                                                                  
+         1          1 MIS 101 A+ Graham     Bill                                                                                                                                                        
+         2          2 MIS 451 A+ Sanchez    Jim                                                                                                                                                         
+         3          5 MIS 451 A+ Lewis      Sheila                                                                                                                                                      
+         4          2 MIS 441 A- Sanchez    Jim                                                                                                                                                         
+         5          4 MIS 441 A- Phelp      David                                                                                                                                                       
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --g)
+SQL> 
+SQL> SELECT ROWNUM, S_ID, COURSE_NO, GRADE, S_LAST, S_FIRST
+  2  FROM(SELECT E.S_ID, E.COURSE_NO, E.GRADE, S.S_LAST, S.S_FIRST
+  3             FROM ENROLLMENT E, STUDENT S
+  4     WHERE E.S_ID = S.S_ID
+  5             ORDER BY E.GRADE DESC)
+  6  WHERE ROWNUM <= 5;
+
+    ROWNUM       S_ID COURSE_ GR S_LAST     S_FIRST                                                                                                                                                     
+---------- ---------- ------- -- ---------- ----------                                                                                                                                                  
+         1          6 MIS 651 C+ James      Thomas                                                                                                                                                      
+         2          3 MIS 651 C+ White      Peter                                                                                                                                                       
+         3          5 MIS 301 B- Lewis      Sheila                                                                                                                                                      
+         4          3 MIS 301 B- White      Peter                                                                                                                                                       
+         5          3 CS 155  B- White      Peter                                                                                                                                                       
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --h)
+SQL> 
+SQL> SELECT B_TITLE "Title", B_PRICE "Price"
+  2  FROM BOOK
+  3  WHERE B_TYPE = (SELECT B_TYPE
+  4                  FROM BOOK
+  5  WHERE B_TITLE LIKE '%p%');
+
+Title                               Price                                                                                                                                                               
+------------------------------ ----------                                                                                                                                                               
+Java Programming                     42.4                                                                                                                                                               
+Economy and Wealth                   43.3                                                                                                                                                               
+Business principles                  12.6                                                                                                                                                               
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --i)
+SQL> 
+SQL> SELECT B_ID, B_AUTHOR, B_TITLE, B_ISBN, P_NAME
+  2  FROM BOOK, PUBLISHER
+  3  WHERE BOOK.P_ID = PUBLISHER.P_ID
+  4  AND B_TYPE IN (SELECT B_TYPE
+  5                 FROM BOOK
+  6     WHERE B_TITLE LIKE '%in%');
+
+      B_ID B_AUTHOR                       B_TITLE                        B_ISBN        P_NAME                                                                                                           
+---------- ------------------------------ ------------------------------ ------------- ------------------------------                                                                                   
+         6 Paul Henry                     Business principles            654321        Harvard Publishing                                                                                               
+         5 Paul Tremblay                  Economy and Wealth             1209845       Pearson Education                                                                                                
+         1 Stev Jeff                      Java Programming               1234987       Harvard Publishing                                                                                               
+         4 James Peter                    PHP Programming                765432        Campus Press                                                                                                     
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --j)
+SQL> 
+SQL> CREATE TABLE BOOKMONTREALSHOP
+  2  AS
+  3  SELECT B_ID, B_AUTHOR, B_TITLE, B_PRICE, B_TYPE
+  4  FROM BOOK
+  5  WHERE B_TYPE IN (SELECT B_TYPE
+  6                    FROM BOOK
+  7    WHERE B_TYPE = 'EX')
+  8  ORDER BY B_ID;
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT * FROM BOOKMONTREALSHOP;
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE B_                                                                                                                  
+---------- ------------------------------ ------------------------------ ---------- --                                                                                                                  
+         2 Amine Khan                     Oracle Database                     252.4 EX                                                                                                                  
+         3 Eduard Becker                  History of Art                      202.3 EX                                                                                                                  
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE BOOKNEWYORKSHOP
+  2  AS
+  3  SELECT B_ID, B_AUTHOR, B_TITLE, B_PRICE, B_TYPE
+  4  FROM BOOK
+  5  WHERE B_TYPE IN (SELECT B_TYPE
+  6                    FROM BOOK
+  7    WHERE B_TYPE = 'EX' OR B_TYPE = 'BG')
+  8  ORDER BY B_ID;
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT * FROM BOOKNEWYORKSHOP;
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE B_                                                                                                                  
+---------- ------------------------------ ------------------------------ ---------- --                                                                                                                  
+         1 Stev Jeff                      Java Programming                     42.4 BG                                                                                                                  
+         2 Amine Khan                     Oracle Database                     252.4 EX                                                                                                                  
+         3 Eduard Becker                  History of Art                      202.3 EX                                                                                                                  
+         5 Paul Tremblay                  Economy and Wealth                   43.3 BG                                                                                                                  
+         6 Paul Henry                     Business principles                  12.6 BG                                                                                                                  
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE BOOKVANCOUVERSHOP
+  2  AS
+  3  SELECT B_ID, B_AUTHOR, B_TITLE, B_PRICE, B_TYPE
+  4  FROM BOOK
+  5  WHERE B_TYPE IN (SELECT B_TYPE
+  6                    FROM BOOK
+  7    WHERE B_TYPE = 'EX' OR B_TYPE = 'MD')
+  8  ORDER BY B_ID;
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> SELECT * FROM BOOKVANCOUVERSHOP;
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE B_                                                                                                                  
+---------- ------------------------------ ------------------------------ ---------- --                                                                                                                  
+         2 Amine Khan                     Oracle Database                     252.4 EX                                                                                                                  
+         3 Eduard Becker                  History of Art                      202.3 EX                                                                                                                  
+         4 James Peter                    PHP Programming                      66.7 MD                                                                                                                  
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --k)
+SQL> 
+SQL> SELECT * FROM BOOKMONTREALSHOP
+  2  INTERSECT
+  3  SELECT * FROM BOOKNEWYORKSHOP
+  4  INTERSECT
+  5  SELECT * FROM BOOKVANCOUVERSHOP;
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE B_                                                                                                                  
+---------- ------------------------------ ------------------------------ ---------- --                                                                                                                  
+         2 Amine Khan                     Oracle Database                     252.4 EX                                                                                                                  
+         3 Eduard Becker                  History of Art                      202.3 EX                                                                                                                  
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --l)
+SQL> 
+SQL> SELECT * FROM BOOKNEWYORKSHOP
+  2  MINUS
+  3  SELECT * FROM BOOKMONTREALSHOP
+  4  MINUS
+  5  SELECT * FROM BOOKVANCOUVERSHOP;
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE B_                                                                                                                  
+---------- ------------------------------ ------------------------------ ---------- --                                                                                                                  
+         1 Stev Jeff                      Java Programming                     42.4 BG                                                                                                                  
+         5 Paul Tremblay                  Economy and Wealth                   43.3 BG                                                                                                                  
+         6 Paul Henry                     Business principles                  12.6 BG                                                                                                                  
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --m)
+SQL> 
+SQL> SELECT * FROM BOOKVANCOUVERSHOP
+  2  MINUS
+  3  SELECT * FROM BOOKMONTREALSHOP;
+
+      B_ID B_AUTHOR                       B_TITLE                           B_PRICE B_                                                                                                                  
+---------- ------------------------------ ------------------------------ ---------- --                                                                                                                  
+         4 James Peter                    PHP Programming                      66.7 MD                                                                                                                  
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SPOOL OFF;

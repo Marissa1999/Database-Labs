@@ -1,0 +1,993 @@
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 1:
+SQL> 
+SQL> START "D:\Marissa\collegeScript.sql"
+SQL> -- Lab8 Script
+SQL> 
+SQL> DROP TABLE faculty CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE student CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE course CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE enrollment CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> 
+SQL> DROP TABLE worker CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> DROP TABLE levelclass CASCADE CONSTRAINTS;
+
+Table dropped.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> CREATE TABLE faculty
+  2  (f_id NUMBER(5),
+  3  f_last VARCHAR2(30),
+  4  f_first VARCHAR2(30),
+  5  CONSTRAINT faculty_f_id_pk PRIMARY KEY (f_id));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE student
+  2  (s_id NUMBER(5),
+  3  s_last VARCHAR2(30),
+  4  s_first VARCHAR2(30),
+  5  s_class VARCHAR2(2),
+  6  f_id NUMBER(5),
+  7  CONSTRAINT student_s_id_pk PRIMARY KEY (s_id),
+  8  CONSTRAINT student_s_id_fk FOREIGN KEY (f_id) REFERENCES faculty(f_id));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE COURSE
+  2  (course_no VARCHAR2(7),
+  3  course_name VARCHAR2(25),
+  4  credits NUMBER(2),
+  5  max_enrl NUMBER(4) CONSTRAINT course_maxenrl_nn NOT NULL,
+  6  CONSTRAINT course_course_id_pk PRIMARY KEY(course_no));
+
+Table created.
+
+SQL> 
+SQL> CREATE TABLE ENROLLMENT
+  2  (s_id NUMBER(5),
+  3  course_no VARCHAR2(7),
+  4  grade CHAR(2),
+  5  CONSTRAINT enrollment_pk PRIMARY KEY (s_id, course_no),
+  6  CONSTRAINT enrollment_sid_fk FOREIGN KEY (s_id) REFERENCES student(s_id),
+  7  CONSTRAINT enrollment_csecid_fk FOREIGN KEY (course_no) REFERENCES course (course_no));
+
+Table created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --- inserting records into Faculty
+SQL> INSERT INTO Faculty VALUES
+  2  (1, 'Robertson', 'Myra');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (2, 'Smith', 'Neal');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (3, 'Arlec', 'Lisa');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (4, 'Fillipo', 'Paul');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO Faculty VALUES
+  2  (5, 'Denver', 'Paul');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --- inserting records into Student
+SQL> INSERT INTO STUDENT VALUES
+  2  (1, 'Graham', 'Bill','JR', 4);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (2, 'Sanchez', 'Jim','EX', 3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT VALUES
+  2  (3, 'White', 'Peter','EX', 3);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT  VALUES
+  2  (4, 'Phelp', 'David','JR', 1);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT  VALUES
+  2  (5, 'Lewis', 'Sheila','SR', 2);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO STUDENT  VALUES
+  2  (6, 'James', 'Thomas','JR', 1);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --- inserting records into COURSE
+SQL> INSERT INTO course VALUES
+  2  ('MIS 101', 'Intro. to Info. Systems', 3, 140);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 301', 'Systems Analysis', 3, 35);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 441', 'Database Management', 3, 12);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('CS 155', 'Programming in C++', 3, 90);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 451', 'Web-Based Systems', 3, 30);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 551', 'Advanced Web', 3, 30);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO course VALUES
+  2  ('MIS 651', 'Advanced Java', 3, 30);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --- inserting records into ENROLLMENT
+SQL> INSERT INTO enrollment VALUES
+  2  (1, 'MIS 101', 'A+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (5,'MIS 301', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (2,'MIS 441', 'A-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (3,'CS 155', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (5,'MIS 451', 'A+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (4,'MIS 551', 'B+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (6,'MIS 651', 'C+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (3,'MIS 301', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (4,'MIS 441', 'A-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (4,'CS 155', 'B-');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (2,'MIS 451', 'A+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (6,'MIS 551', 'B+');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO enrollment VALUES
+  2  (3,'MIS 651', 'C+');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> ALTER TABLE faculty
+  2  ADD Birthday DATE;
+
+Table altered.
+
+SQL> 
+SQL> UPDATE faculty SET birthday=to_date('30-jul-1940', 'DD-MON-YY') where f_id=1;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=to_date('12-may-1950', 'DD-MON-YY') where f_id=2;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=to_date('24-mar-1941', 'DD-MON-YY') where f_id=3;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=to_date('11-feb-1971', 'DD-MON-YY') where f_id=4;
+
+1 row updated.
+
+SQL> UPDATE faculty SET birthday=to_date('09-oct-1980', 'DD-MON-YY') where f_id=5;
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> ALTER TABLE student
+  2  ADD Birthday DATE;
+
+Table altered.
+
+SQL> 
+SQL> UPDATE student SET birthday=to_date('30-jul-1980', 'DD-MON-YY') where s_id=1;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=to_date('12-may-1981', 'DD-MON-YY') where s_id=2;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=to_date('24-mar-1987', 'DD-MON-YY') where s_id=3;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=to_date('11-feb-1988', 'DD-MON-YY') where s_id=4;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=to_date('09-oct-1970', 'DD-MON-YY') where s_id=5;
+
+1 row updated.
+
+SQL> UPDATE student SET birthday=to_date('07-dec-1960', 'DD-MON-YY') where s_id=6;
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> ALTER TABLE course
+  2  ADD prereq VARCHAR2(7);
+
+Table altered.
+
+SQL> 
+SQL> UPDATE course SET prereq=null	where course_no='MIS 101';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 651' where course_no='MIS 301';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 301' where course_no='MIS 441';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 101' where course_no='CS 155';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 101' where course_no='MIS 451';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 451' where course_no='MIS 551';
+
+1 row updated.
+
+SQL> UPDATE course SET prereq='MIS 101' where course_no='MIS 651';
+
+1 row updated.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --worker
+SQL> 
+SQL> CREATE TABLE worker
+  2  (w_id NUMBER(5),
+  3  w_last VARCHAR2(30),
+  4  w_first VARCHAR2(30),
+  5  CONSTRAINT worker_w_id_pk PRIMARY KEY (w_id));
+
+Table created.
+
+SQL> 
+SQL> INSERT INTO WORKER VALUES
+  2  (1, 'Graham', 'Bill');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO WORKER VALUES
+  2  (2, 'Craig', 'Daniel');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO WORKER VALUES
+  2  (3, 'White', 'Peter');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO WORKER VALUES
+  2  (4, 'Depp', 'Johnny');
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO WORKER VALUES
+  2  (5, 'Shell', 'Amanda');
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --levelclassr
+SQL> 
+SQL> 
+SQL> CREATE TABLE levelclass
+  2  (lc_type NUMBER(1),
+  3  lc_desc VARCHAR2(30),
+  4  lc_min NUMBER(3),
+  5  lc_max NUMBER(3),
+  6  CONSTRAINT levelclass_lc_type_pk PRIMARY KEY (lc_type));
+
+Table created.
+
+SQL> 
+SQL> INSERT INTO levelclass VALUES
+  2  (1, 'Small Class', 1, 12);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO levelclass VALUES
+  2  (2, 'Medium Class', 13, 30);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO levelclass VALUES
+  2  (3, 'Large Class', 31, 90);
+
+1 row created.
+
+SQL> 
+SQL> INSERT INTO levelclass VALUES
+  2  (4, 'Extra Class', 91, 140);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> COMMIT;
+
+Commit complete.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 2:
+SQL> 
+SQL> SELECT student.s_id, student.s_last, student.s_class, faculty.f_last, faculty.f_first
+  2  FROM student, faculty
+  3  WHERE student.f_id = faculty.f_id;
+
+      S_ID S_LAST                         S_ F_LAST                         F_FIRST                                                                                                                     
+---------- ------------------------------ -- ------------------------------ ------------------------------                                                                                              
+         1 Graham                         JR Fillipo                        Paul                                                                                                                        
+         2 Sanchez                        EX Arlec                          Lisa                                                                                                                        
+         3 White                          EX Arlec                          Lisa                                                                                                                        
+         4 Phelp                          JR Robertson                      Myra                                                                                                                        
+         5 Lewis                          SR Smith                          Neal                                                                                                                        
+         6 James                          JR Robertson                      Myra                                                                                                                        
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 3:
+SQL> 
+SQL> SELECT student.f_id "Student_f_id", student.s_last, student.s_first, faculty.f_last, faculty.f_first,
+  2  faculty.f_id "Faculty_f_id"
+  3  FROM student, faculty;
+
+Student_f_id S_LAST                         S_FIRST                        F_LAST                         F_FIRST                        Faculty_f_id                                                   
+------------ ------------------------------ ------------------------------ ------------------------------ ------------------------------ ------------                                                   
+           4 Graham                         Bill                           Robertson                      Myra                                      1                                                   
+           3 Sanchez                        Jim                            Robertson                      Myra                                      1                                                   
+           3 White                          Peter                          Robertson                      Myra                                      1                                                   
+           1 Phelp                          David                          Robertson                      Myra                                      1                                                   
+           2 Lewis                          Sheila                         Robertson                      Myra                                      1                                                   
+           1 James                          Thomas                         Robertson                      Myra                                      1                                                   
+           4 Graham                         Bill                           Smith                          Neal                                      2                                                   
+           3 Sanchez                        Jim                            Smith                          Neal                                      2                                                   
+           3 White                          Peter                          Smith                          Neal                                      2                                                   
+           1 Phelp                          David                          Smith                          Neal                                      2                                                   
+           2 Lewis                          Sheila                         Smith                          Neal                                      2                                                   
+           1 James                          Thomas                         Smith                          Neal                                      2                                                   
+           4 Graham                         Bill                           Arlec                          Lisa                                      3                                                   
+           3 Sanchez                        Jim                            Arlec                          Lisa                                      3                                                   
+           3 White                          Peter                          Arlec                          Lisa                                      3                                                   
+           1 Phelp                          David                          Arlec                          Lisa                                      3                                                   
+           2 Lewis                          Sheila                         Arlec                          Lisa                                      3                                                   
+           1 James                          Thomas                         Arlec                          Lisa                                      3                                                   
+           4 Graham                         Bill                           Fillipo                        Paul                                      4                                                   
+           3 Sanchez                        Jim                            Fillipo                        Paul                                      4                                                   
+           3 White                          Peter                          Fillipo                        Paul                                      4                                                   
+           1 Phelp                          David                          Fillipo                        Paul                                      4                                                   
+           2 Lewis                          Sheila                         Fillipo                        Paul                                      4                                                   
+           1 James                          Thomas                         Fillipo                        Paul                                      4                                                   
+           4 Graham                         Bill                           Denver                         Paul                                      5                                                   
+           3 Sanchez                        Jim                            Denver                         Paul                                      5                                                   
+           3 White                          Peter                          Denver                         Paul                                      5                                                   
+           1 Phelp                          David                          Denver                         Paul                                      5                                                   
+           2 Lewis                          Sheila                         Denver                         Paul                                      5                                                   
+           1 James                          Thomas                         Denver                         Paul                                      5                                                   
+
+30 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 4:
+SQL> 
+SQL> INSERT INTO STUDENT VALUES (7, 'Daniel', 'Criag', 'JR', null, null);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 5:
+SQL> 
+SQL> INSERT INTO STUDENT VALUES (8, 'Celine', 'Dion', 'JR', null, null);
+
+1 row created.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 6:
+SQL> 
+SQL> SELECT * FROM student;
+
+      S_ID S_LAST                         S_FIRST                        S_       F_ID BIRTHDAY                                                                                                         
+---------- ------------------------------ ------------------------------ -- ---------- ---------                                                                                                        
+         1 Graham                         Bill                           JR          4 30-JUL-80                                                                                                        
+         2 Sanchez                        Jim                            EX          3 12-MAY-81                                                                                                        
+         3 White                          Peter                          EX          3 24-MAR-87                                                                                                        
+         4 Phelp                          David                          JR          1 11-FEB-88                                                                                                        
+         5 Lewis                          Sheila                         SR          2 09-OCT-70                                                                                                        
+         6 James                          Thomas                         JR          1 07-DEC-60                                                                                                        
+         7 Daniel                         Criag                          JR                                                                                                                             
+         8 Celine                         Dion                           JR                                                                                                                             
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 7:
+SQL> 
+SQL> SELECT * FROM faculty;
+
+      F_ID F_LAST                         F_FIRST                        BIRTHDAY                                                                                                                       
+---------- ------------------------------ ------------------------------ ---------                                                                                                                      
+         1 Robertson                      Myra                           30-JUL-40                                                                                                                      
+         2 Smith                          Neal                           12-MAY-50                                                                                                                      
+         3 Arlec                          Lisa                           24-MAR-41                                                                                                                      
+         4 Fillipo                        Paul                           11-FEB-71                                                                                                                      
+         5 Denver                         Paul                           09-OCT-80                                                                                                                      
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 8:
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_class, f.f_last, f.f_first
+  2  FROM student s, faculty f
+  3  WHERE s.f_id = f.f_id;
+
+      S_ID S_LAST                         S_ F_LAST                         F_FIRST                                                                                                                     
+---------- ------------------------------ -- ------------------------------ ------------------------------                                                                                              
+         1 Graham                         JR Fillipo                        Paul                                                                                                                        
+         2 Sanchez                        EX Arlec                          Lisa                                                                                                                        
+         3 White                          EX Arlec                          Lisa                                                                                                                        
+         4 Phelp                          JR Robertson                      Myra                                                                                                                        
+         5 Lewis                          SR Smith                          Neal                                                                                                                        
+         6 James                          JR Robertson                      Myra                                                                                                                        
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 9:
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_class, f.f_last, f.f_first
+  2  FROM student s, faculty f
+  3  WHERE s.f_id = f.f_id AND s.s_class = 'EX';
+
+      S_ID S_LAST                         S_ F_LAST                         F_FIRST                                                                                                                     
+---------- ------------------------------ -- ------------------------------ ------------------------------                                                                                              
+         2 Sanchez                        EX Arlec                          Lisa                                                                                                                        
+         3 White                          EX Arlec                          Lisa                                                                                                                        
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 10:
+SQL> 
+SQL> SELECT s.s_id, s.s_last, s.s_class, f.f_last, f.f_first
+  2  FROM student s, faculty f
+  3  WHERE s.f_id = f.f_id AND (s.s_class = 'EX' OR s.s_class = 'SR');
+
+      S_ID S_LAST                         S_ F_LAST                         F_FIRST                                                                                                                     
+---------- ------------------------------ -- ------------------------------ ------------------------------                                                                                              
+         2 Sanchez                        EX Arlec                          Lisa                                                                                                                        
+         3 White                          EX Arlec                          Lisa                                                                                                                        
+         5 Lewis                          SR Smith                          Neal                                                                                                                        
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 11:
+SQL> 
+SQL> SELECT * FROM levelclass;
+
+   LC_TYPE LC_DESC                            LC_MIN     LC_MAX                                                                                                                                         
+---------- ------------------------------ ---------- ----------                                                                                                                                         
+         1 Small Class                             1         12                                                                                                                                         
+         2 Medium Class                           13         30                                                                                                                                         
+         3 Large Class                            31         90                                                                                                                                         
+         4 Extra Class                            91        140                                                                                                                                         
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 12:
+SQL> 
+SQL> SELECT c.course_no, c.course_name, c.credits, c.max_enrl, l.lc_type, l.lc_desc
+  2  FROM course c, levelclass l
+  3  WHERE c.max_enrl BETWEEN l.lc_min AND l.lc_max;
+
+COURSE_ COURSE_NAME                  CREDITS   MAX_ENRL    LC_TYPE LC_DESC                                                                                                                              
+------- ------------------------- ---------- ---------- ---------- ------------------------------                                                                                                       
+MIS 441 Database Management                3         12          1 Small Class                                                                                                                          
+MIS 551 Advanced Web                       3         30          2 Medium Class                                                                                                                         
+MIS 651 Advanced Java                      3         30          2 Medium Class                                                                                                                         
+MIS 451 Web-Based Systems                  3         30          2 Medium Class                                                                                                                         
+MIS 301 Systems Analysis                   3         35          3 Large Class                                                                                                                          
+CS 155  Programming in C++                 3         90          3 Large Class                                                                                                                          
+MIS 101 Intro. to Info. Systems            3        140          4 Extra Class                                                                                                                          
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 13:
+SQL> 
+SQL> SELECT student.s_id, student.s_last, student.s_class, faculty.f_last, faculty.f_first
+  2  FROM student, faculty
+  3  WHERE student.f_id = faculty.f_id;
+
+      S_ID S_LAST                         S_ F_LAST                         F_FIRST                                                                                                                     
+---------- ------------------------------ -- ------------------------------ ------------------------------                                                                                              
+         1 Graham                         JR Fillipo                        Paul                                                                                                                        
+         2 Sanchez                        EX Arlec                          Lisa                                                                                                                        
+         3 White                          EX Arlec                          Lisa                                                                                                                        
+         4 Phelp                          JR Robertson                      Myra                                                                                                                        
+         5 Lewis                          SR Smith                          Neal                                                                                                                        
+         6 James                          JR Robertson                      Myra                                                                                                                        
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 14:
+SQL> 
+SQL> SELECT student.s_id, student.s_last, student.s_class, faculty.f_last, faculty.f_first
+  2  FROM student, faculty
+  3  WHERE student.f_id (+) = faculty.f_id
+  4  ORDER BY student.s_id;
+
+      S_ID S_LAST                         S_ F_LAST                         F_FIRST                                                                                                                     
+---------- ------------------------------ -- ------------------------------ ------------------------------                                                                                              
+         1 Graham                         JR Fillipo                        Paul                                                                                                                        
+         2 Sanchez                        EX Arlec                          Lisa                                                                                                                        
+         3 White                          EX Arlec                          Lisa                                                                                                                        
+         4 Phelp                          JR Robertson                      Myra                                                                                                                        
+         5 Lewis                          SR Smith                          Neal                                                                                                                        
+         6 James                          JR Robertson                      Myra                                                                                                                        
+                                             Denver                         Paul                                                                                                                        
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 15:
+SQL> 
+SQL> SELECT student.s_id, student.s_last, student.s_class, faculty.f_last, faculty.f_first
+  2  FROM student, faculty
+  3  WHERE student.f_id = faculty.f_id (+);
+
+      S_ID S_LAST                         S_ F_LAST                         F_FIRST                                                                                                                     
+---------- ------------------------------ -- ------------------------------ ------------------------------                                                                                              
+         6 James                          JR Robertson                      Myra                                                                                                                        
+         4 Phelp                          JR Robertson                      Myra                                                                                                                        
+         5 Lewis                          SR Smith                          Neal                                                                                                                        
+         3 White                          EX Arlec                          Lisa                                                                                                                        
+         2 Sanchez                        EX Arlec                          Lisa                                                                                                                        
+         1 Graham                         JR Fillipo                        Paul                                                                                                                        
+         8 Celine                         JR                                                                                                                                                            
+         7 Daniel                         JR                                                                                                                                                            
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 16:
+SQL> 
+SQL> SELECT student.s_id, student.s_last, student.s_class, faculty.f_last, faculty.f_first
+  2  FROM student, faculty
+  3  WHERE student.f_id = faculty.f_id (+)
+  4  ORDER BY student.s_id;
+
+      S_ID S_LAST                         S_ F_LAST                         F_FIRST                                                                                                                     
+---------- ------------------------------ -- ------------------------------ ------------------------------                                                                                              
+         1 Graham                         JR Fillipo                        Paul                                                                                                                        
+         2 Sanchez                        EX Arlec                          Lisa                                                                                                                        
+         3 White                          EX Arlec                          Lisa                                                                                                                        
+         4 Phelp                          JR Robertson                      Myra                                                                                                                        
+         5 Lewis                          SR Smith                          Neal                                                                                                                        
+         6 James                          JR Robertson                      Myra                                                                                                                        
+         7 Daniel                         JR                                                                                                                                                            
+         8 Celine                         JR                                                                                                                                                            
+
+8 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 17:
+SQL> 
+SQL> SELECT student.s_id, student.s_last, student.s_class, faculty.f_last, faculty.f_first
+  2  FROM student, faculty
+  3  WHERE student.f_id (+) = faculty.f_id (+);
+WHERE student.f_id (+) = faculty.f_id (+)
+                       *
+ERROR at line 3:
+ORA-01468: a predicate may reference only one outer-joined table 
+
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 18:
+SQL> 
+SQL> SELECT c.course_no, c.course_name, c.credits, c.max_enrl, c.prereq
+  2  FROM course c, course r
+  3  WHERE c.course_no = r.prereq;
+
+COURSE_ COURSE_NAME                  CREDITS   MAX_ENRL PREREQ                                                                                                                                          
+------- ------------------------- ---------- ---------- -------                                                                                                                                         
+MIS 651 Advanced Java                      3         30 MIS 101                                                                                                                                         
+MIS 301 Systems Analysis                   3         35 MIS 651                                                                                                                                         
+MIS 101 Intro. to Info. Systems            3        140                                                                                                                                                 
+MIS 101 Intro. to Info. Systems            3        140                                                                                                                                                 
+MIS 451 Web-Based Systems                  3         30 MIS 101                                                                                                                                         
+MIS 101 Intro. to Info. Systems            3        140                                                                                                                                                 
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 19:
+SQL> 
+SQL> SELECT c.course_no ||', '|| c.course_name "Course", c.course_no ||', '|| r.course_name "Pre-Requiste Course"
+  2  FROM course c, course r
+  3  WHERE c.prereq = r.course_no;
+
+Course                             Pre-Requiste Course                                                                                                                                                  
+---------------------------------- ----------------------------------                                                                                                                                   
+MIS 651, Advanced Java             MIS 651, Intro. to Info. Systems                                                                                                                                     
+MIS 451, Web-Based Systems         MIS 451, Intro. to Info. Systems                                                                                                                                     
+CS 155, Programming in C++         CS 155, Intro. to Info. Systems                                                                                                                                      
+MIS 441, Database Management       MIS 441, Systems Analysis                                                                                                                                            
+MIS 551, Advanced Web              MIS 551, Web-Based Systems                                                                                                                                           
+MIS 301, Systems Analysis          MIS 301, Advanced Java                                                                                                                                               
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 20:
+SQL> 
+SQL> SELECT c.course_no ||', '|| c.course_name "Course", c.course_no ||', '|| r.course_name "Pre-Requiste Course"
+  2  FROM course c, course r
+  3  WHERE c.prereq = r.course_no (+);
+
+Course                             Pre-Requiste Course                                                                                                                                                  
+---------------------------------- ----------------------------------                                                                                                                                   
+MIS 651, Advanced Java             MIS 651, Intro. to Info. Systems                                                                                                                                     
+MIS 451, Web-Based Systems         MIS 451, Intro. to Info. Systems                                                                                                                                     
+CS 155, Programming in C++         CS 155, Intro. to Info. Systems                                                                                                                                      
+MIS 441, Database Management       MIS 441, Systems Analysis                                                                                                                                            
+MIS 551, Advanced Web              MIS 551, Web-Based Systems                                                                                                                                           
+MIS 301, Systems Analysis          MIS 301, Advanced Java                                                                                                                                               
+MIS 101, Intro. to Info. Systems   MIS 101,                                                                                                                                                             
+
+7 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 21:
+SQL> 
+SQL> SELECT s_id, s_last, s_first FROM student
+  2  UNION
+  3  SELECT w_id, w_last, w_first FROM worker;
+
+      S_ID S_LAST                         S_FIRST                                                                                                                                                       
+---------- ------------------------------ ------------------------------                                                                                                                                
+         1 Graham                         Bill                                                                                                                                                          
+         2 Craig                          Daniel                                                                                                                                                        
+         2 Sanchez                        Jim                                                                                                                                                           
+         3 White                          Peter                                                                                                                                                         
+         4 Depp                           Johnny                                                                                                                                                        
+         4 Phelp                          David                                                                                                                                                         
+         5 Lewis                          Sheila                                                                                                                                                        
+         5 Shell                          Amanda                                                                                                                                                        
+         6 James                          Thomas                                                                                                                                                        
+         7 Daniel                         Criag                                                                                                                                                         
+         8 Celine                         Dion                                                                                                                                                          
+
+11 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 22:
+SQL> 
+SQL> SELECT s_id, s_last, s_first FROM student
+  2  UNION ALL
+  3  SELECT w_id, w_last, w_first FROM worker;
+
+      S_ID S_LAST                         S_FIRST                                                                                                                                                       
+---------- ------------------------------ ------------------------------                                                                                                                                
+         1 Graham                         Bill                                                                                                                                                          
+         2 Sanchez                        Jim                                                                                                                                                           
+         3 White                          Peter                                                                                                                                                         
+         4 Phelp                          David                                                                                                                                                         
+         5 Lewis                          Sheila                                                                                                                                                        
+         6 James                          Thomas                                                                                                                                                        
+         7 Daniel                         Criag                                                                                                                                                         
+         8 Celine                         Dion                                                                                                                                                          
+         1 Graham                         Bill                                                                                                                                                          
+         2 Craig                          Daniel                                                                                                                                                        
+         3 White                          Peter                                                                                                                                                         
+         4 Depp                           Johnny                                                                                                                                                        
+         5 Shell                          Amanda                                                                                                                                                        
+
+13 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 23:
+SQL> 
+SQL> SELECT s_id, s_last, s_first FROM student
+  2  INTERSECT
+  3  SELECT w_id, w_last, w_first FROM worker;
+
+      S_ID S_LAST                         S_FIRST                                                                                                                                                       
+---------- ------------------------------ ------------------------------                                                                                                                                
+         1 Graham                         Bill                                                                                                                                                          
+         3 White                          Peter                                                                                                                                                         
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> --Question 24:
+SQL> 
+SQL> SELECT s_id, s_last, s_first FROM student
+  2  MINUS
+  3  SELECT w_id, w_last, w_first FROM worker;
+
+      S_ID S_LAST                         S_FIRST                                                                                                                                                       
+---------- ------------------------------ ------------------------------                                                                                                                                
+         2 Sanchez                        Jim                                                                                                                                                           
+         4 Phelp                          David                                                                                                                                                         
+         5 Lewis                          Sheila                                                                                                                                                        
+         6 James                          Thomas                                                                                                                                                        
+         7 Daniel                         Criag                                                                                                                                                         
+         8 Celine                         Dion                                                                                                                                                          
+
+6 rows selected.
+
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> 
+SQL> SPOOL OFF;
